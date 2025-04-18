@@ -13,7 +13,7 @@ passport.use(
     {
       clientID: clientID,
       clientSecret: clientSecret,
-      callbackURL: "http://www.example.com/auth/google/callback",
+      callbackURL: "http://localhost:4000/auth/google/callback",
     },
     function (
       accessToken: string,
