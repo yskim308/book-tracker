@@ -5,6 +5,10 @@ import isAuthenticated from "../middleware/ensureAuthenticated.ts";
 export { router };
 
 const router = express.Router();
+const frontendBase = process.env.FRONTEND_BASE;
+if (!frontendBase) {
+  throw new Error("frontend base url not configured properly");
+}
 
 router.get(
   "/",
@@ -14,8 +18,8 @@ router.get(
 router.get(
   "/callback",
   passport.authenticate("google", {
-    successRedirect: "/auth/google/protected",
-    failureRedirect: "/failure",
+    successRedirect: `${frontendBase}/home`,
+    failureRedirect: `${frontendBase}/unauthorized`,
   }),
 );
 
