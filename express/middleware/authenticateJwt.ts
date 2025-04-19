@@ -1,5 +1,5 @@
 import express from "express";
-import jwt from "jsonwebtoken";
+import jwt, { type JwtPayload, type VerifyErrors } from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 
 const jwtSecret = process.env.JWT_SECRET!;
@@ -34,13 +34,17 @@ export default function verifyJwt(
     return res.status(401).send("No acesss token provided");
   }
 
-  jwt.verify(token, jwtSecret, (err: unknown, decoded: unknown) => {
-    if (err) {
-      console.log(err);
-      return res.status(403).send("Invalid access token");
-    }
+  jwt.verify(
+    token,
+    jwtSecret,
+    (err: VerifyErrors | null, decoded: JwtPayload | string | undefined) => {
+      if (err) {
+        console.log(err);
+        return res.status(403).send("Invalid access token");
+      }
 
-    req.user = decoded as User;
-    next();
-  });
+      req.user = decoded as User;
+      next();
+    },
+  );
 }
