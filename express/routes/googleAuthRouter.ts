@@ -43,6 +43,7 @@ router.get(
     };
 
     const token = jwt.sign(payload, jwtSecret, { expiresIn: "24h" });
+    // tood: set the options for the cookie
     res.cookie("authToken", token);
     res.redirect(`${frontendBase}/home`);
   },
