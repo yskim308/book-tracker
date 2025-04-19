@@ -35,6 +35,7 @@ router.get(
 
     const googleProfile = req.user as Profile;
 
+    //todo set the payload s the user object defined by prisma
     const payload = {
       userId: googleProfile.id,
       userEmails: googleProfile.emails,
