@@ -1,6 +1,6 @@
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import passport from "passport";
-import type { DoneCallback } from "passport";
+import type { Profile } from "passport-google-oauth20";
 
 const clientID = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -18,18 +18,13 @@ passport.use(
     function (
       accessToken: string,
       refreshToken: string,
-      profile: Express.User,
+      profile: Profile,
       done,
     ) {
+      console.log(profile);
+      // todo: integrate with database users table
+      // note that it should be an async function
       return done(null, profile);
     },
   ),
 );
-
-passport.serializeUser((user: Express.User, done: DoneCallback) => {
-  return done(null, user);
-});
-
-passport.deserializeUser((user: Express.User, done: DoneCallback) => {
-  return done(null, user);
-});
