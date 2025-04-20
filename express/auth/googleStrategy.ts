@@ -1,6 +1,8 @@
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import passport from "passport";
 import type { Profile } from "passport-google-oauth20";
+import { PrismaClient } from "../generated/prisma";
+import type { User } from "../generated/prisma";
 
 const clientID = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -21,9 +23,7 @@ passport.use(
       profile: Profile,
       done,
     ) {
-      console.log(profile);
-      // todo: integrate with database users table
-      // note that it should be an async function
+      // todo create user with prisma client
       return done(null, profile);
     },
   ),
