@@ -1,8 +1,9 @@
 import express from "express";
-import passport from "passport";
+import passport, { session } from "passport";
 import "../auth/googleStrategy.ts";
 import isAuthenticated from "../middleware/ensureAuthenticated.ts";
 import type { Profile } from "passport-google-oauth20";
+import type { User } from "../generated/prisma/index";
 import jwt from "jsonwebtoken";
 export { router };
 
@@ -19,28 +20,27 @@ if (!jwtSecret) {
 
 router.get(
   "/",
-  passport.authenticate("google", { scope: ["email", "profile", "openid"] }),
+  passport.authenticate("google", {
+    scope: ["email", "profile", "openid"],
+    session: false,
+  }),
 );
 
 router.get(
   "/callback",
-  passport.authenticate("google", {
-    successRedirect: `${frontendBase}/home`,
-    failureRedirect: `${frontendBase}/unauthorized`,
-  }),
+  passport.authenticate("google", { session: false }),
   (req: express.Request, res: express.Response) => {
     if (!req.user) {
       return res.redirect(`${frontendBase}/unauthorized`);
     }
 
-    const googleProfile = req.user as Profile;
+    const googleProfile = req.user as User;
 
     //todo set the payload s the user object defined by prisma
     const payload = {
       userId: googleProfile.id,
-      userEmails: googleProfile.emails,
-      userProfileUrl: googleProfile.profileUrl,
-      userPhotos: googleProfile.photos,
+      userEmails: googleProfile.email,
+      userPicture: googleProfile.picture,
     };
 
     const token = jwt.sign(payload, jwtSecret, { expiresIn: "24h" });
@@ -53,11 +53,3 @@ router.get(
 router.get("/failure", (req: express.Request, res: express.Response) => {
   res.status(401).send("auth failure");
 });
-
-router.get(
-  "/protected",
-  isAuthenticated,
-  (req: express.Request, res: express.Response) => {
-    res.status(200).send("accessed protected route from session");
-  },
-);
