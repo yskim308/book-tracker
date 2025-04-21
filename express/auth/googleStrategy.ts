@@ -10,6 +10,8 @@ if (!clientID || !clientSecret) {
   throw new Error("invalid or empty google client id or secret");
 }
 
+const prisma = new PrismaClient();
+
 passport.use(
   new GoogleStrategy(
     {
@@ -17,14 +19,36 @@ passport.use(
       clientSecret: clientSecret,
       callbackURL: "http://localhost:4000/auth/google/callback",
     },
-    function (
+    async function (
       accessToken: string,
       refreshToken: string,
       profile: Profile,
       done,
     ) {
       // todo create user with prisma client
-      return done(null, profile);
+      const id: string = profile.id;
+
+      const name: string = profile._json.name ?? "";
+      const email: string = profile._json.email ?? "";
+      const picture: string = profile._json.picture ?? "";
+
+      const user = await prisma.user.upsert({
+        where: {
+          googleId: id,
+        },
+        update: {
+          name: name,
+          email: email,
+          picture: picture,
+        },
+        create: {
+          googleId: id,
+          name: name,
+          email: email,
+          picture: picture,
+        },
+      });
+      return done(null, user);
     },
   ),
 );
