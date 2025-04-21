@@ -1,5 +1,5 @@
 import "express";
-import type { User } from "./auth/authTypes";
+import type { User } from "./generated/prisma";
 
 declare global {
   namespace Express {
