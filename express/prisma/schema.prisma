@@ -15,11 +15,11 @@ datasource db {
 }
 
 model User {
-    id       Int      @id @default(autoincrement())
-    googleId String?  @unique
+    id       Int     @id @default(autoincrement())
+    googleId String? @unique
     name     String
-    emails   String[]
-    photos   String[]
+    email    String
+    picture  String
     books    Book[] // Relation to Book objects
 }
 
