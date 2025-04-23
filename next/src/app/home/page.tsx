@@ -17,8 +17,8 @@ export default function Home() {
         if (!response.ok) {
           throw new Error("unauthorized"); // should route elsewhere to error page
         }
-        const message = await response.json();
-        console.log(message);
+        const data = await response.json();
+        console.log(data.message);
         setMesssage(message);
       } catch (e: unknown) {
         console.log(e);
@@ -30,7 +30,6 @@ export default function Home() {
   return (
     <div>
       <h1>hello from homepage, check cookies please</h1>
-      <h1>message: {message}</h1>
     </div>
   );
 }
