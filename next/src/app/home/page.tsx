@@ -10,15 +10,18 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${backendBase}/home`);
+        const response = await fetch(`${backendBase}/home`, {
+          method: "GET",
+          credentials: "include",
+        });
         if (!response.ok) {
           throw new Error("unauthorized"); // should route elsewhere to error page
         }
         const message = await response.json();
+        console.log(message);
         setMesssage(message);
       } catch (e: unknown) {
         console.log(e);
-        router.push("/error");
       }
     };
 
@@ -27,6 +30,7 @@ export default function Home() {
   return (
     <div>
       <h1>hello from homepage, check cookies please</h1>
+      <h1>message: {message}</h1>
     </div>
   );
 }
