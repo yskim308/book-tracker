@@ -14,10 +14,9 @@ export default function verifyJwt(
 ) {
   console.log("middleware triggered");
   const token = req.cookies.authToken;
-  const frontendBase = process.env.FRONTEND_BASE;
+  console.log("token: " + token);
   if (!token) {
     res.status(401).send("No acesss token provided");
-    res.redirect(`${frontendBase}/error`);
     return;
   }
 
