@@ -7,8 +7,14 @@ import { router as HomeRouter } from "./routes/homeRouter";
 
 const port = 4000;
 
+const frontendBase = process.env.FRONTEND_BASE;
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: frontendBase,
+    credentials: true,
+  }),
+);
 app.use(passport.initialize());
 app.use(cookieParser());
 
