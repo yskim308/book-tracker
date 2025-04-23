@@ -1,8 +1,6 @@
 import express from "express";
 import passport, { session } from "passport";
 import "../auth/googleStrategy.ts";
-import isAuthenticated from "../middleware/ensureAuthenticated.ts";
-import type { Profile } from "passport-google-oauth20";
 import type { User } from "../generated/prisma/index";
 import jwt from "jsonwebtoken";
 export { router };
