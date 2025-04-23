@@ -1,6 +1,6 @@
 import express from "express";
+import type { User } from "../generated/prisma";
 import jwt, { type JwtPayload, type VerifyErrors } from "jsonwebtoken";
-import cookieParser from "cookie-parser";
 
 const jwtSecret = process.env.JWT_SECRET!;
 if (!jwtSecret) {
@@ -8,19 +8,7 @@ if (!jwtSecret) {
 }
 
 interface AuthRequest extends express.Request {
-  user?: {
-    userId: string;
-    userEmails: string[];
-    userProfileUrl: string;
-    userPhotos: string[];
-  };
-}
-
-interface User {
-  userId: string;
-  userEmails: string[];
-  userProfileUrl: string;
-  userPhotos: string[];
+  user?: User;
 }
 
 export default function verifyJwt(
