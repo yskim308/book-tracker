@@ -7,19 +7,16 @@ if (!jwtSecret) {
   throw new Error("Jwt secret not set");
 }
 
-interface AuthRequest extends express.Request {
-  user?: User;
-}
-
 export default function verifyJwt(
-  req: AuthRequest,
+  req: express.Request,
   res: express.Response,
   next: express.NextFunction,
-) {
+): void {
   const token = req.cookies.authToken;
 
   if (!token) {
-    return res.status(401).send("No acesss token provided");
+    res.status(401).send("No acesss token provided");
+    return;
   }
 
   jwt.verify(
@@ -31,7 +28,7 @@ export default function verifyJwt(
         return res.status(403).send("Invalid access token");
       }
 
-      req.user = decoded as User;
+      res.locals.user = decoded as User;
       next();
     },
   );

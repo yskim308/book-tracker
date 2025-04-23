@@ -4,5 +4,8 @@ import type { User } from "./generated/prisma";
 declare global {
   namespace Express {
     interface User extends User {}
+    interface Locals {
+      user: User;
+    }
   }
 }
