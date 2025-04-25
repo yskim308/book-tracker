@@ -21,9 +21,7 @@ router.get(
       },
     });
 
-    console.log("user from protected route");
-    console.log(user);
-    res.status(201).json({ message: "sup" });
+    res.status(201).json({ data: user });
     return;
   },
 );

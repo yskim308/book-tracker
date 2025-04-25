@@ -18,12 +18,8 @@ app.use(
 app.use(passport.initialize());
 app.use(cookieParser());
 
-app.get("/", (req: express.Request, res: express.Response) => {
-  res.send("hello world from /");
-});
-
 app.use("/auth/google", GoogleAuthRouter);
-app.use("/home", HomeRouter);
+app.use("/", HomeRouter);
 
 app.listen(port, () => {
   console.log("listening on port: " + port);
