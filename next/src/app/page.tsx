@@ -2,6 +2,7 @@
 import { User } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import LogoutButton from "@/components/logoutButton";
 
 export default function Home() {
   const router = useRouter();
@@ -17,13 +18,14 @@ export default function Home() {
         });
         if (!response.ok) {
           router.push("/signIn");
+          return;
         }
         const userData = await response.json();
         setUser(userData.data);
         setLoading(false);
         console.log(userData.data);
       } catch (e: unknown) {
-        throw new Error(e as string);
+        console.log(e);
       }
     };
 
@@ -37,6 +39,9 @@ export default function Home() {
       ) : (
         <h1>welcome from home page, {user?.name}</h1>
       )}
+      <div>
+        <LogoutButton />
+      </div>
     </div>
   );
 }
