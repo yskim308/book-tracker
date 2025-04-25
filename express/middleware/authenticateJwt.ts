@@ -12,9 +12,7 @@ export default function verifyJwt(
   res: express.Response,
   next: express.NextFunction,
 ) {
-  console.log("middleware triggered");
   const token = req.cookies.authToken;
-  console.log("token: " + token);
   if (!token) {
     res.status(401).send("No acesss token provided");
     return;
@@ -28,8 +26,12 @@ export default function verifyJwt(
         console.log(err);
         return res.status(403).send("Invalid access token");
       }
-
-      res.locals.user = decoded as User;
+      const id = Number(decoded);
+      if (isNaN(id)) {
+        throw new Error("id from jwt sign is NOT a number");
+      }
+      res.locals.userId = id;
+      console.log(res.locals.user);
       next();
     },
   );

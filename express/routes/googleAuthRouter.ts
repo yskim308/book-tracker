@@ -2,6 +2,7 @@ import express from "express";
 import passport, { session } from "passport";
 import "../auth/googleStrategy.ts";
 import type { User } from "../generated/prisma/index";
+import { PrismaClient } from "../generated/prisma/index.js";
 import jwt from "jsonwebtoken";
 export { router };
 
@@ -27,18 +28,28 @@ router.get(
 router.get(
   "/callback",
   passport.authenticate("google", { session: false }),
-  (req: express.Request, res: express.Response) => {
+  async (req: express.Request, res: express.Response) => {
     if (!req.user) {
       return res.redirect(`${frontendBase}/unauthorized`);
     }
 
     const googleProfile = req.user as User;
+    if (!googleProfile.googleId) {
+      throw new Error("unable to find googleId");
+    }
 
-    //todo set the payload s the user object defined by prisma
+    const prisma = new PrismaClient();
+    const id = prisma.user.findUnique({
+      where: {
+        googleId: googleProfile.googleId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
     const payload = {
-      userId: googleProfile.id,
-      userEmails: googleProfile.email,
-      userPicture: googleProfile.picture,
+      sub: id,
     };
 
     const token = jwt.sign(payload, jwtSecret, { expiresIn: "24h" });

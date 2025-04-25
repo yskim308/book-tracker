@@ -5,7 +5,7 @@ declare global {
   namespace Express {
     interface User extends User {}
     interface Locals {
-      user: User;
+      userId: number;
     }
   }
 }
