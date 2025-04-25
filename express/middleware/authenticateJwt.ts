@@ -1,5 +1,4 @@
 import express from "express";
-import type { User } from "../generated/prisma";
 import jwt, { type JwtPayload, type VerifyErrors } from "jsonwebtoken";
 
 const jwtSecret = process.env.JWT_SECRET!;
