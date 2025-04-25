@@ -25,3 +25,8 @@ router.get(
     return;
   },
 );
+
+router.post("/logout", (req: express.Request, res: express.Response) => {
+  res.clearCookie("authToken");
+  res.status(200).send("logged out succesfully");
+});
