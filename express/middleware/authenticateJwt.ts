@@ -25,12 +25,11 @@ export default function verifyJwt(
         console.log(err);
         return res.status(403).send("Invalid access token");
       }
-      const id = Number(decoded);
-      if (isNaN(id)) {
-        throw new Error("id from jwt sign is NOT a number");
+      if (!decoded || !decoded.sub) {
+        return res.status(403).send("id unavailable from jwt when verifying");
       }
-      res.locals.userId = id;
-      console.log(res.locals.user);
+      console.log("id from decoded: " + decoded.sub);
+      res.locals.userId = Number(decoded.sub);
       next();
     },
   );

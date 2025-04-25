@@ -11,13 +11,18 @@ router.get(
   async (req: express.Request, res: express.Response) => {
     const prisma = new PrismaClient();
     const userId = res.locals.userId;
-    const user = prisma.user.findUnique({
+    console.log("user id from res.locals: " + userId);
+    if (!userId) {
+      throw new Error("userId is undefined from verifyjwt middleware");
+    }
+    const user = await prisma.user.findUnique({
       where: {
         id: userId,
       },
     });
 
-    console.log("user from protected route: " + user);
+    console.log("user from protected route");
+    console.log(user);
     res.status(201).json({ message: "sup" });
     return;
   },

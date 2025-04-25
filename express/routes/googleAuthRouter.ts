@@ -37,9 +37,12 @@ router.get(
     if (!googleProfile.googleId) {
       throw new Error("unable to find googleId");
     }
+    console.log(
+      "the google id where we will find from prisma: " + googleProfile.googleId,
+    );
 
     const prisma = new PrismaClient();
-    const id = prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         googleId: googleProfile.googleId,
       },
@@ -47,10 +50,15 @@ router.get(
         id: true,
       },
     });
+    if (!user) {
+      throw new Error("prisma query empty");
+    }
+    console.log("the id from prisma: " + user.id);
 
     const payload = {
-      sub: id,
+      sub: user.id,
     };
+    console.log("the payload to be sigend: " + payload.sub);
 
     const token = jwt.sign(payload, jwtSecret, { expiresIn: "24h" });
     // tood: set the options for the cookie
