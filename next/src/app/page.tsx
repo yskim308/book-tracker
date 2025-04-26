@@ -2,7 +2,7 @@
 import { User } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import LogoutButton from "@/components/logoutButton";
+import LogoutButton from "@/components/LogoutButton";
 
 export default function Home() {
   const router = useRouter();
