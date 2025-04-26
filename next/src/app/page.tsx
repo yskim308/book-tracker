@@ -3,6 +3,7 @@ import { User } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import LogoutButton from "@/components/LogoutButton";
+import BookSearchbar from "@/components/BookSearchbar";
 
 export default function Home() {
   const router = useRouter();
@@ -41,6 +42,9 @@ export default function Home() {
       )}
       <div>
         <LogoutButton />
+      </div>
+      <div>
+        <BookSearchbar />
       </div>
     </div>
   );
