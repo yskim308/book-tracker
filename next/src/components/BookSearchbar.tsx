@@ -1,8 +1,12 @@
+import { SearchBook } from "@/types";
 import { useEffect, useState } from "react";
+import SeacrhContainer from "./SearchContainer";
+import SearchContainer from "./SearchContainer";
 
 export default function BookSearchbar() {
   const [value, setValue] = useState<string>("");
   const [debounceValue, setDebounceValue] = useState<string>("");
+  const [books, setBooks] = useState<SearchBook[]>([]);
 
   // set the debounce value on delay, on change of value;
   const debounceDelay = 300;
@@ -32,6 +36,8 @@ export default function BookSearchbar() {
         const response = await fetch(`${booksApiEndpoint}/?q=${searchQuery}`);
         const data = await response.json(); // toodo: set types for the data receieved
         console.log(data);
+        const books: SearchBook[] = data.items;
+        setBooks(books);
       } catch (e: unknown) {
         console.log(e);
       }
@@ -49,7 +55,7 @@ export default function BookSearchbar() {
   };
 
   return (
-    <div>
+    <div className="relative">
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -58,6 +64,7 @@ export default function BookSearchbar() {
           onChange={handleChange}
         />
       </form>
+      <SearchContainer books={books} />
     </div>
   );
 }
