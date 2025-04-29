@@ -1,6 +1,5 @@
 import { SearchBook } from "@/types";
 import { useEffect, useState } from "react";
-import SeacrhContainer from "./SearchContainer";
 import SearchContainer from "./SearchContainer";
 
 export default function BookSearchbar() {
@@ -34,12 +33,12 @@ export default function BookSearchbar() {
 
   useEffect(() => {
     const search = async () => {
-      if (!debounceValue) {
-        return;
-      }
       try {
         let searchQuery = debounceValue.split(" ").join("+");
-        if (!searchQuery) return;
+        if (!searchQuery) {
+          setBooks([]);
+          return;
+        }
         const response = await fetch(
           `${booksApiEndpoint}/?q=${searchQuery}&key=${apiKey}`,
         );

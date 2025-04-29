@@ -8,11 +8,13 @@ interface SearchContainerProps {
 export default function SearchContainer({ books }: SearchContainerProps) {
   return (
     <div className="absolute">
-      {books
-        ? books.map((book: SearchBook) => (
-            <SearchSuggestion key={book.id} book={book} />
-          ))
-        : null}
+      {books.length ? (
+        books.map((book: SearchBook) => (
+          <SearchSuggestion key={book.id} book={book} />
+        ))
+      ) : (
+        <h1>empty</h1>
+      )}
     </div>
   );
 }
