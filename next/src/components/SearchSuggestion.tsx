@@ -1,4 +1,5 @@
 import { SearchBook } from "@/types";
+import Link from "next/link";
 
 interface SearchSuggestionProps {
   book: SearchBook;
@@ -7,8 +8,10 @@ interface SearchSuggestionProps {
 export default function SearchSuggestion({ book }: SearchSuggestionProps) {
   return (
     <div>
-      <h1 className="font-bold">title: {book.volumeInfo.title}</h1>
-      <h1>author: {book.volumeInfo.authors}</h1>
+      <Link href={`/books/${book.id}`}>
+        <h1 className="font-bold">title: {book.volumeInfo.title}</h1>
+        <h1>author: {book.volumeInfo.authors}</h1>
+      </Link>
     </div>
   );
 }
