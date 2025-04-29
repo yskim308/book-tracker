@@ -26,6 +26,12 @@ export default function BookSearchbar() {
   if (!booksApiEndpoint) {
     throw new Error("api endpoint not defined in env variables");
   }
+
+  const apiKey: string | undefined = process.env.NEXT_PUBLIC_BOOKS_API_KEY;
+  if (!apiKey) {
+    throw new Error("api key not defined");
+  }
+
   useEffect(() => {
     const search = async () => {
       if (!debounceValue) {
@@ -33,9 +39,11 @@ export default function BookSearchbar() {
       }
       try {
         let searchQuery = debounceValue.split(" ").join("+");
-        const response = await fetch(`${booksApiEndpoint}/?q=${searchQuery}`);
+        if (!searchQuery) return;
+        const response = await fetch(
+          `${booksApiEndpoint}/?q=${searchQuery}&key=${apiKey}`,
+        );
         const data = await response.json(); // toodo: set types for the data receieved
-        console.log(data);
         const books: SearchBook[] = data.items;
         setBooks(books);
       } catch (e: unknown) {
