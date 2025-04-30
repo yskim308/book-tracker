@@ -26,6 +26,33 @@ router.get(
   },
 );
 
+router.get(
+  "/getUser",
+  verifyJwt,
+  async (req: express.Request, res: express.Response) => {
+    const prisma = new PrismaClient();
+    const userId = res.locals.userId;
+    if (!userId) {
+      throw new Error("user id is undefined from verifyjwt middleware");
+    }
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        name: true,
+        picture: true,
+      },
+    });
+    console.log("from /getUser: ");
+    console.log(user);
+    res.status(201).json({
+      name: user?.name,
+      picture: user?.picture,
+    });
+  },
+);
+
 router.post("/logout", (req: express.Request, res: express.Response) => {
   res.clearCookie("authToken");
   res.status(200).send("logged out succesfully");

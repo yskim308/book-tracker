@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface UserData {
   name: string;
@@ -12,6 +13,8 @@ export default function Profile() {
   const [picture, setPicture] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
+  const router = useRouter();
+
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
   useEffect(() => {
     const getData = async () => {
@@ -20,6 +23,10 @@ export default function Profile() {
           method: "GET",
           credentials: "include",
         });
+        if (response.status === 401) {
+          console.log("unauthorized");
+          router.push("/signIn");
+        }
         const data = await response.json();
         setName(data.name);
         setPicture(data.picture);
