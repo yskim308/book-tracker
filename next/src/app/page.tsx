@@ -2,8 +2,6 @@
 import { User } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import LogoutButton from "@/components/LogoutButton";
-import BookSearchbar from "@/components/BookSearchbar";
 
 export default function Home() {
   const router = useRouter();
@@ -40,12 +38,6 @@ export default function Home() {
       ) : (
         <h1>welcome from home page, {user?.name}</h1>
       )}
-      <div>
-        <LogoutButton />
-      </div>
-      <div>
-        <BookSearchbar />
-      </div>
     </div>
   );
 }

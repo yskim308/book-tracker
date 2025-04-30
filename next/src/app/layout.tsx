@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import BookSearchbar from "@/components/searchbar/BookSearchbar";
+import Profile from "@/components/profile/Profile";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className="flex">
+          <BookSearchbar />
+          <Profile />
+        </div>
+        <div>{children}</div>
+      </body>
     </html>
   );
 }

@@ -1,3 +1,4 @@
+"use client";
 import { SearchBook } from "@/types";
 import { useEffect, useState } from "react";
 import SearchContainer from "./SearchContainer";
@@ -62,7 +63,7 @@ export default function BookSearchbar() {
   };
 
   return (
-    <div className="relative">
+    <div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
