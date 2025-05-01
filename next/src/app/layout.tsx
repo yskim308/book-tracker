@@ -15,13 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <div className="flex">
-          <BookSearchbar />
-          <Profile />
-        </div>
-        <div>{children}</div>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
