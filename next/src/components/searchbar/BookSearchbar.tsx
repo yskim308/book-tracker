@@ -63,7 +63,7 @@ export default function BookSearchbar() {
   };
 
   return (
-    <div>
+    <div className="mx-auto">
       <form onSubmit={handleSubmit}>
         <input
           type="text"

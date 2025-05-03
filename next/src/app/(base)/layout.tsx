@@ -6,7 +6,7 @@ export default function Layout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div>
-      <div className="flex">
+      <div className="flex p-3 justify-between">
         <BookSearchbar />
         <Profile />
       </div>

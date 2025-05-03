@@ -41,7 +41,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div>
+    <div className="">
       <div>
         {loading ? (
           <h1>loading</h1>
@@ -52,6 +52,7 @@ export default function Profile() {
               alt="images/account-circle-outline"
               width={40}
               height={40}
+              className="rounded-full"
             />
             <h1>{name}</h1>
           </div>
