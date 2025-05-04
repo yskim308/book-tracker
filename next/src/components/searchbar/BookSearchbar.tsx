@@ -72,7 +72,7 @@ export default function BookSearchbar() {
             placeholder="search for books"
             value={value}
             onChange={handleChange}
-            className="px-4 py-2 rounded-md shadow-md focus:outline-none focus:ring-2 focus: ring-indigo-500 text-gray-700 placeholder-gray-400"
+            className="px-4 py-2 rounded-lg border border-indigo-200 focus:outline-none focus:ring-2 focus: ring-indigo-500 text-gray-700 placeholder-gray-400"
           />
         </div>
         <div className="absolute inset-y-0 right-0 flex items-center p-2 pointer-events-none">
