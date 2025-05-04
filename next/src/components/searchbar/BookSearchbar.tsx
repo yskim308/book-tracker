@@ -2,6 +2,7 @@
 import { SearchBook } from "@/types";
 import { useEffect, useState } from "react";
 import SearchContainer from "./SearchContainer";
+import Image from "next/image";
 
 export default function BookSearchbar() {
   const [value, setValue] = useState<string>("");
@@ -63,14 +64,26 @@ export default function BookSearchbar() {
   };
 
   return (
-    <div className="mx-auto">
+    <div className="w-full flex flex-col items-center">
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="search for books"
-          value={value}
-          onChange={handleChange}
-        />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="search for books"
+            value={value}
+            onChange={handleChange}
+            className="px-4 py-2 rounded-md shadow-md focus:outline-none focus:ring-2 focus: ring-indigo-500 text-gray-700 placeholder-gray-400"
+          />
+        </div>
+        <div className="absolute inset-y-0 right-0 flex items-center p-2 pointer-events-none">
+          <Image
+            src="images/searchIcon.svg"
+            className="h-5 w-5"
+            width={20}
+            height={20}
+            alt="search"
+          />
+        </div>
       </form>
       <SearchContainer books={books} />
     </div>

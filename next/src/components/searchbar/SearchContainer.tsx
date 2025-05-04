@@ -7,7 +7,7 @@ interface SearchContainerProps {
 
 export default function SearchContainer({ books }: SearchContainerProps) {
   return (
-    <div className="absolute">
+    <div className="z-50">
       {books.length ? (
         books.map((book: SearchBook) => (
           <SearchSuggestion key={book.id} book={book} />

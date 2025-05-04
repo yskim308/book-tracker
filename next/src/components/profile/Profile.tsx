@@ -3,11 +3,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-interface UserData {
-  name: string;
-  picture: string;
-}
-
 export default function Profile() {
   const [name, setName] = useState<string>("");
   const [picture, setPicture] = useState<string>("");
