@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function LogoutButton() {
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
   if (!backendBase) {
@@ -16,8 +18,11 @@ export default function LogoutButton() {
     }
   };
   return (
-    <div>
-      <button onClick={() => logoutOnClick()}>logout</button>
+    <div className="flex justify-center">
+      <Image src="images/logout.svg" alt="" width={20} height={20} />
+      <button onClick={() => logoutOnClick()} className="px-1">
+        logout
+      </button>
     </div>
   );
 }

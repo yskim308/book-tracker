@@ -61,7 +61,7 @@ export default function Profile() {
                   <DropdownMenu.Item className="rounded-2xl focus:outline-none">
                     <ProfileContext name={name} picture={picture} />
                   </DropdownMenu.Item>
-                  <DropdownMenu.Item className="flex justify-center focus:outline-none">
+                  <DropdownMenu.Item className="focus:outline-none">
                     <LogoutButton />
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
