@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Separator } from "radix-ui";
 
 interface ProfileContextProps {
   name: string;
@@ -7,7 +8,7 @@ interface ProfileContextProps {
 
 export default function ProfileContext({ name, picture }: ProfileContextProps) {
   return (
-    <div className="w-full flex flex-col items-center p-5">
+    <div className="w-full flex flex-col items-center p-2">
       <Image
         src={picture}
         alt="images/account-circle-outline"
@@ -16,6 +17,7 @@ export default function ProfileContext({ name, picture }: ProfileContextProps) {
         className="rounded-full"
       />
       <div>hi, {name}</div>
+      <Separator.Separator className="h-px w-full bg-gray-400 mt-3" />
     </div>
   );
 }
