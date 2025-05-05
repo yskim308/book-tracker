@@ -72,17 +72,17 @@ export default function BookSearchbar() {
             placeholder="search for books"
             value={value}
             onChange={handleChange}
-            className="px-4 py-2 rounded-lg border border-indigo-200 focus:outline-none focus:ring-2 focus: ring-indigo-500 text-gray-700 placeholder-gray-400"
+            className="px-4 py-2 rounded-lg border border-indigo-200 focus:outline-none focus:ring-2 focus: ring-indigo-500 text-gray-700 placeholder-gray-400 bg-gray-100"
           />
-        </div>
-        <div className="absolute inset-y-0 right-0 flex items-center p-2 pointer-events-none">
-          <Image
-            src="images/searchIcon.svg"
-            className="h-5 w-5"
-            width={20}
-            height={20}
-            alt="search"
-          />
+          <div className="absolute top-0 right-0 bottom-0 flex items-center p-2 pointer-events-none">
+            <Image
+              src="images/searchIcon.svg"
+              className="h-7 w-7"
+              width={20}
+              height={20}
+              alt="search"
+            />
+          </div>
         </div>
       </form>
       <SearchContainer books={books} />
