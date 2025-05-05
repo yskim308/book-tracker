@@ -64,15 +64,15 @@ export default function BookSearchbar() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <form onSubmit={handleSubmit}>
-        <div className="relative">
+    <div className="w-full">
+      <form onSubmit={handleSubmit} className="w-full flex justify-center">
+        <div className="relative w-3/4 lg:w-1/4">
           <input
             type="text"
             placeholder="search for books"
             value={value}
             onChange={handleChange}
-            className="px-4 py-2 rounded-lg border border-indigo-200 focus:outline-none focus:ring-2 focus: ring-indigo-500 text-gray-700 placeholder-gray-400 bg-gray-100 w-sm lg:w-md"
+            className="px-4 py-2 rounded-lg border border-indigo-200 focus:outline-none focus:ring-2 focus: ring-indigo-500 text-gray-700 placeholder-gray-400 bg-gray-100 w-full"
           />
           <div className="absolute top-0 right-0 bottom-0 flex items-center p-2 pointer-events-none">
             <Image
