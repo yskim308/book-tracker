@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { DropdownMenu } from "radix-ui";
+import LogoutButton from "./LogoutButton";
+import ProfileContext from "./ProfileContext";
 
 export default function Profile() {
   const [name, setName] = useState<string>("");
@@ -42,14 +45,28 @@ export default function Profile() {
           <h1>loading</h1>
         ) : (
           <div>
-            <Image
-              src={picture}
-              alt="images/account-circle-outline"
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
-            <h1>{name}</h1>
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger>
+                <Image
+                  src={picture}
+                  alt="images/account-circle-outline"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              </DropdownMenu.Trigger>
+
+              <DropdownMenu.Portal>
+                <DropdownMenu.Content className="w-50 bg-gray-200 m-5 p-3 rounded-3xl">
+                  <DropdownMenu.Item className="rounded-2xl focus:outline-none">
+                    <ProfileContext name={name} picture={picture} />
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item className="flex justify-center focus:outline-none">
+                    <LogoutButton />
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Portal>
+            </DropdownMenu.Root>
           </div>
         )}
       </div>
