@@ -7,13 +7,14 @@ interface SearchSuggestionProps {
 }
 
 export default function SearchSuggestion({ book }: SearchSuggestionProps) {
+  let bookSrc = book.volumeInfo.imageLinks.thumbnail;
   return (
     <Link href={`/books/${book.id}`}>
       <div className="flex">
         <div>
           <Image
-            src={book.volumeInfo.imageLinks.thumbnail}
-            alt="image"
+            src={bookSrc ? bookSrc : "images/questionMark.svg"}
+            alt="images/questionMark.svg"
             width={30}
             height={50}
           />
