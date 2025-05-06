@@ -64,7 +64,7 @@ export default function BookSearchbar() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       <form onSubmit={handleSubmit} className="w-full flex justify-center">
         <div className="relative w-3/4 lg:w-1/4">
           <input
