@@ -18,7 +18,7 @@ export default function LogoutButton() {
     }
   };
   return (
-    <div className="flex justify-center hover:bg-gray-300 rounded-3xl">
+    <div className="flex justify-center hover:bg-gray-300 rounded-3xl py-2">
       <Image src="images/logout.svg" alt="" width={20} height={20} />
       <button onClick={() => logoutOnClick()} className="px-1">
         logout
