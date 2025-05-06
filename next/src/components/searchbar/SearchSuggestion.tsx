@@ -8,6 +8,12 @@ interface SearchSuggestionProps {
 
 export default function SearchSuggestion({ book }: SearchSuggestionProps) {
   let bookSrc = book.volumeInfo.imageLinks.thumbnail;
+  let authorString: string;
+  if (book.volumeInfo.authors.length > 1) {
+    authorString = `${book.volumeInfo.authors[0]} + ${book.volumeInfo.authors.length - 1} more`;
+  } else {
+    authorString = book.volumeInfo.authors[0];
+  }
   return (
     <Link href={`/books/${book.id}`}>
       <div className="flex">
@@ -19,9 +25,10 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
             height={50}
           />
         </div>
-        <div></div>
-        <h1 className="font-bold">title: {book.volumeInfo.title}</h1>
-        <h1>author: {book.volumeInfo.authors}</h1>
+        <div>
+          <h1 className="font-bold">{book.volumeInfo.title}</h1>
+          <h1 className="font-light">{authorString}</h1>
+        </div>
       </div>
     </Link>
   );
