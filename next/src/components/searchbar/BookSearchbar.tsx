@@ -8,6 +8,7 @@ export default function BookSearchbar() {
   const [value, setValue] = useState<string>("");
   const [debounceValue, setDebounceValue] = useState<string>("");
   const [books, setBooks] = useState<SearchBook[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
 
   // set the debounce value on delay, on change of value;
   const debounceDelay = 300;
@@ -64,8 +65,13 @@ export default function BookSearchbar() {
   };
 
   return (
-    <div className="w-full relative">
-      <form onSubmit={handleSubmit} className="w-full flex justify-center">
+    <div className="w-full">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full flex justify-center"
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+      >
         <div className="relative w-3/4 lg:w-1/4">
           <input
             type="text"
@@ -85,7 +91,7 @@ export default function BookSearchbar() {
           </div>
         </div>
       </form>
-      <SearchContainer books={books} />
+      {open ? <SearchContainer books={books} /> : null}
     </div>
   );
 }
