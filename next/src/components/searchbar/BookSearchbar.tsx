@@ -83,7 +83,7 @@ export default function BookSearchbar() {
           />
           <div className="absolute top-0 right-0 bottom-0 flex items-center p-2 pointer-events-none">
             <Image
-              src="images/searchIcon.svg"
+              src="/images/searchIcon.svg"
               className="h-7 w-7"
               width={20}
               height={20}

@@ -49,7 +49,7 @@ export default function Profile() {
               <DropdownMenu.Trigger>
                 <Image
                   src={picture}
-                  alt="images/account-circle-outline"
+                  alt="/images/account-circle-outline"
                   width={40}
                   height={40}
                   className="rounded-full"

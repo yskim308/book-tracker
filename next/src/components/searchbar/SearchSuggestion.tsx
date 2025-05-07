@@ -26,8 +26,8 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
       <div className="flex w-full my-2">
         <div className="w-16">
           <Image
-            src={bookSrc ? bookSrc : "images/questionMark.svg"}
-            alt="images/questionMark.svg"
+            src={bookSrc ? bookSrc : "/images/questionMark.svg"}
+            alt="no image"
             width={100}
             height={100}
             className=" w-full"

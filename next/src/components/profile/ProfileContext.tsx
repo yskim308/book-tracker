@@ -11,7 +11,7 @@ export default function ProfileContext({ name, picture }: ProfileContextProps) {
     <div className="w-full flex flex-col items-center p-2">
       <Image
         src={picture}
-        alt="images/account-circle-outline"
+        alt="/images/account-circle-outline"
         width={60}
         height={60}
         className="rounded-full"
