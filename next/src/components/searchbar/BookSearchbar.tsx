@@ -47,6 +47,7 @@ export default function BookSearchbar() {
         );
         const data = await response.json(); // toodo: set types for the data receieved
         const books: SearchBook[] = data.items;
+        console.log(data);
         setBooks(books);
       } catch (e: unknown) {
         console.log(e);
@@ -70,7 +71,7 @@ export default function BookSearchbar() {
         onSubmit={handleSubmit}
         className="w-full flex justify-center"
         onFocus={() => setOpen(true)}
-        onBlur={() => setOpen(false)}
+        //onBlur={() => setOpen(false)}
       >
         <div className="relative w-3/4 lg:w-1/4">
           <input
