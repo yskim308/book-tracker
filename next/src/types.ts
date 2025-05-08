@@ -15,18 +15,9 @@ export interface UserBook {
 }
 
 export interface SearchBook {
-  id: string;
-  volumeInfo: {
-    title: string;
-    publisher: string;
-    publishedDate: string;
-    authors: string[];
-    description: string;
-    imageLinks: {
-      smallThumbnail: string;
-      thumbnail: string;
-    };
-    pageCount: number;
-    language: string;
-  };
+  author_name: string[];
+  cover_edition_key: string;
+  key: string;
+  title: string;
+  first_publish_year: number;
 }
