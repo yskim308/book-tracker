@@ -7,7 +7,7 @@ interface SearchSuggestionProps {
 }
 
 export default function SearchSuggestion({ book }: SearchSuggestionProps) {
-  const bookSrc = `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-s`;
+  const bookSrc = `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-S.jpg`;
   let authorString: string;
   if (!book.author_name) {
     authorString = "";
