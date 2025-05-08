@@ -23,11 +23,6 @@ export default function BookSearchbar() {
   }, [value]);
 
   // search the books api endpoint when the debounce value changes
-  const booksApiEndpoint: string | undefined =
-    process.env.NEXT_PUBLIC_BOOKS_API_ENDPOINT;
-  if (!booksApiEndpoint) {
-    throw new Error("api endpoint not defined in env variables");
-  }
 
   useEffect(() => {
     const search = async () => {
@@ -37,7 +32,7 @@ export default function BookSearchbar() {
           setBooks([]);
           return;
         }
-        const url = `${booksApiEndpoint}/?q=${searchQuery}`;
+        const url = `https://openlibrary.org/search.json?q=${searchQuery}`;
         const response = await fetch(url);
         const data = await response.json(); // toodo: set types for the data receieved
         const books: SearchBook[] = data.docs;
