@@ -7,8 +7,10 @@ interface SearchSuggestionProps {
 }
 
 export default function SearchSuggestion({ book }: SearchSuggestionProps) {
-  const bookSrc = `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-S.jpg`;
+  let bookSrc = `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`;
   let authorString: string;
+
+  // setting author names
   if (!book.author_name) {
     authorString = "";
   } else if (book.author_name.length > 1) {
@@ -16,10 +18,14 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
   } else {
     authorString = book.author_name[0];
   }
+
+  if (!book.cover_edition_key) {
+    bookSrc = "";
+  }
   return (
     <Link href={`/books/${book.key}`}>
       <div className="flex w-full my-2">
-        <div className="w-16">
+        <div className="w-16 h-32">
           <Image
             src={bookSrc ? bookSrc : "/images/questionMark.svg"}
             alt="no image"
