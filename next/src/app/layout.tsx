@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Theme } from "@radix-ui/themes";
 import "./globals.css";
 import BookSearchbar from "@/components/searchbar/BookSearchbar";
 import Profile from "@/components/profile/Profile";
@@ -15,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Theme>{children}</Theme>
+      </body>
     </html>
   );
 }
