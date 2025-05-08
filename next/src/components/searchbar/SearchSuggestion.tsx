@@ -7,22 +7,17 @@ interface SearchSuggestionProps {
 }
 
 export default function SearchSuggestion({ book }: SearchSuggestionProps) {
-  let bookSrc: string;
-  if (!book.volumeInfo.imageLinks) {
-    bookSrc = "";
-  } else {
-    bookSrc = book.volumeInfo.imageLinks.thumbnail;
-  }
+  const bookSrc = `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-s`;
   let authorString: string;
-  if (!book.volumeInfo.authors) {
+  if (!book.author_name) {
     authorString = "";
-  } else if (book.volumeInfo.authors.length > 1) {
-    authorString = `${book.volumeInfo.authors[0]} + ${book.volumeInfo.authors.length - 1} more`;
+  } else if (book.author_name.length > 1) {
+    authorString = `${book.author_name[0]} + ${book.author_name.length - 1} more`;
   } else {
-    authorString = book.volumeInfo.authors[0];
+    authorString = book.author_name[0];
   }
   return (
-    <Link href={`/books/${book.id}`}>
+    <Link href={`/books/${book.key}`}>
       <div className="flex w-full my-2">
         <div className="w-16">
           <Image
@@ -30,13 +25,11 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
             alt="no image"
             width={100}
             height={100}
-            className=" w-full"
+            className="w-full h-auto"
           />
         </div>
         <div>
-          <h1 className="font-bold text-sm lg:text-base">
-            {book.volumeInfo.title}
-          </h1>
+          <h1 className="font-bold text-sm lg:text-base">{book.title}</h1>
           <h1 className="font-light text-sm lg:text-base">{authorString}</h1>
         </div>
       </div>
