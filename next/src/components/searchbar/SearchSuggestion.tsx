@@ -1,4 +1,6 @@
 import { SearchBook } from "@/types";
+import { useState } from "react";
+import { Spinner } from "@radix-ui/themes";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -7,9 +9,14 @@ interface SearchSuggestionProps {
 }
 
 export default function SearchSuggestion({ book }: SearchSuggestionProps) {
-  let bookSrc = `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`;
-  let authorString: string;
+  const [loading, setLoading] = useState<boolean>(true);
+  const [imageError, setImageError] = useState<boolean>(false);
 
+  let bookSrc = book.cover_edition_key
+    ? `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`
+    : "/images/questionMark.svg";
+
+  let authorString: string;
   // setting author names
   if (!book.author_name) {
     authorString = "";
@@ -19,19 +26,26 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
     authorString = book.author_name[0];
   }
 
-  if (!book.cover_edition_key) {
-    bookSrc = "";
-  }
   return (
     <Link href={`/books/${book.key}`}>
-      <div className="flex w-full my-2">
-        <div className="w-16 h-32">
+      <div className="flex w-full my-1">
+        <div className="w-16 h-32 mx-2 relative">
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Spinner />
+            </div>
+          )}
           <Image
-            src={bookSrc ? bookSrc : "/images/questionMark.svg"}
-            alt="no image"
+            src={imageError ? "/images/questionMark.svg" : bookSrc}
+            alt={book.title || "Book cover"}
             width={100}
             height={100}
-            className="w-full h-auto"
+            className={`w-full h-auto ${loading ? "opacity-0" : "opacity-100"}`}
+            onLoad={() => setLoading(false)}
+            onError={() => {
+              setImageError(true);
+              setLoading(false);
+            }}
           />
         </div>
         <div>
