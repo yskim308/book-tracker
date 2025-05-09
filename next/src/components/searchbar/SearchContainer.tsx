@@ -11,7 +11,7 @@ export default function SearchContainer({ books }: SearchContainerProps) {
     return null;
   }
   return (
-    <div className="z-50 absolute bg-white border border-black rounded-3xl left-1/2 -translate-x-1/2 mt-2 w-3/4 lg:w-1/4 p-5">
+    <div className="z-50 absolute bg-white shadow-lg rounded-3xl left-1/2 -translate-x-1/2 mt-2 w-3/4 lg:w-2/5 p-5">
       <ScrollArea className="max-h-1/4">
         {books.length ? (
           books
