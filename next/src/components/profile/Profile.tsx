@@ -50,9 +50,9 @@ export default function Profile() {
                 <Image
                   src={picture}
                   alt="/images/account-circle-outline"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
+                  width={95}
+                  height={95}
+                  className="rounded-full w-8 md:w-10"
                 />
               </DropdownMenu.Trigger>
 
