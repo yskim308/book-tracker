@@ -29,7 +29,7 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
   return (
     <Link href={`/books/${book.key}`}>
       <div className="flex w-full p-1 hover:bg-gray-100 rounded-2xl">
-        <div className="min-w-16 h-28 mx-2 relative">
+        <div className="min-w-16 h-28 mr-2 relative">
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center">
               <Spinner />
@@ -52,6 +52,9 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
           <h1 className="font-bold text-sm md:text-lg w-full">{book.title}</h1>
           <h1 className="font-light text-sm md:text-lg w-full">
             {authorString}
+          </h1>
+          <h1 className="font-thin text-xs md:text-xs">
+            published: {book.first_publish_year}
           </h1>
         </div>
       </div>
