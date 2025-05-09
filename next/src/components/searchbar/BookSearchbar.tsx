@@ -82,7 +82,10 @@ export default function BookSearchbar() {
         </div>
       </form>
       {open && (
-        <div onMouseDown={(e: React.MouseEvent) => e.preventDefault()}>
+        <div
+          onMouseDown={(e: React.MouseEvent) => e.preventDefault()}
+          onClick={() => setOpen(false)}
+        >
           <SearchContainer books={books} />
         </div>
       )}
