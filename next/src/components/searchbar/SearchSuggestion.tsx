@@ -27,7 +27,7 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
   }
 
   return (
-    <Link href={`/books/${book.key}`}>
+    <Link href={`${book.key}`}>
       <div className="flex w-full p-1 hover:bg-gray-100 rounded-2xl">
         <div className="min-w-16 h-28 mr-2 relative">
           {loading && (
