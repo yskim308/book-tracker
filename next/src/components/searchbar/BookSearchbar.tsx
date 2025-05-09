@@ -62,7 +62,7 @@ export default function BookSearchbar() {
         onFocus={() => setOpen(true)}
         //onBlur={() => setOpen(false)}
       >
-        <div className="relative w-3/4 lg:w-1/4">
+        <div className="relative w-3/4 lg:w-2/5">
           <input
             type="text"
             placeholder="search for books"
