@@ -28,8 +28,8 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
 
   return (
     <Link href={`/books/${book.key}`}>
-      <div className="flex w-full my-1">
-        <div className="w-16 h-32 mx-2 relative">
+      <div className="flex w-full p-1 hover:bg-gray-100 rounded-2xl">
+        <div className="min-w-16 h-28 mx-2 relative overflow-hidden">
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center">
               <Spinner />
@@ -38,9 +38,9 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
           <Image
             src={imageError ? "/images/questionMark.svg" : bookSrc}
             alt={book.title || "Book cover"}
-            width={100}
-            height={100}
-            className={`w-full h-auto ${loading ? "opacity-0" : "opacity-100"}`}
+            width={180}
+            height={266}
+            className={`w-16 h-28 object-cover ${loading ? "opacity-0" : "opacity-100"}`}
             onLoad={() => setLoading(false)}
             onError={() => {
               setImageError(true);
@@ -48,9 +48,11 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
             }}
           />
         </div>
-        <div>
-          <h1 className="font-bold text-sm lg:text-base">{book.title}</h1>
-          <h1 className="font-light text-sm lg:text-base">{authorString}</h1>
+        <div className="flex-grow">
+          <h1 className="font-bold text-sm md:text-lg w-full">{book.title}</h1>
+          <h1 className="font-light text-sm md:text-lg w-full">
+            {authorString}
+          </h1>
         </div>
       </div>
     </Link>
