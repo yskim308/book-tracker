@@ -6,9 +6,11 @@ export default function Layout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div>
-      <div className="flex p-3">
+      <div className="flex justify-center relative my-3">
         <BookSearchbar />
-        <Profile />
+        <div className="absolute top-0 right-0 mx-2">
+          <Profile />
+        </div>
       </div>
       <div>{children}</div>
     </div>
