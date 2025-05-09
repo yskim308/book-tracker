@@ -60,7 +60,7 @@ export default function BookSearchbar() {
         onSubmit={handleSubmit}
         className="w-full flex justify-center"
         onFocus={() => setOpen(true)}
-        //onBlur={() => setOpen(false)}
+        onBlur={() => setOpen(false)}
       >
         <div className="relative w-3/4 lg:w-2/5">
           <input
@@ -81,7 +81,11 @@ export default function BookSearchbar() {
           </div>
         </div>
       </form>
-      {open ? <SearchContainer books={books} /> : null}
+      {open && (
+        <div onMouseDown={(e: React.MouseEvent) => e.preventDefault()}>
+          <SearchContainer books={books} />
+        </div>
+      )}
     </div>
   );
 }
