@@ -21,3 +21,37 @@ export interface SearchBook {
   title: string;
   first_publish_year: number;
 }
+
+export interface Work {
+  authors: {
+    author: {
+      key: string;
+    };
+  };
+  description: string;
+  covers: number[];
+  subjects: string[];
+}
+
+export interface Edition {
+  authors: {
+    key: string;
+  }[];
+  isbn_13: string;
+  publish_date: string;
+  publishers: string[];
+  title: string;
+  works: {
+    key: string;
+  }[];
+  covers: number[];
+  number_of_pages: number;
+}
+
+export interface Author {
+  personal_name: string;
+  key: string;
+  birth_date: string;
+  name: string;
+  bio: string;
+}
