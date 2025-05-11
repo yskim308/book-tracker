@@ -37,7 +37,7 @@ export default function BookSearchbar() {
           setBooks([]);
           return;
         }
-        const url = `${searchBase}?q=${searchQuery}`;
+        const url = `${searchBase}/search.json?q=${searchQuery}`;
         const response = await fetch(url);
         const data = await response.json(); // toodo: set types for the data receieved
         const books: SearchBook[] = data.docs;

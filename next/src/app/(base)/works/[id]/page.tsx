@@ -29,7 +29,6 @@ export default function Page() {
   return (
     <div>
       <h1>from book page:</h1>
-      <h1>title: {book?.volumeInfo.title}</h1>
     </div>
   );
 }

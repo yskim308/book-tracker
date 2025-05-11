@@ -18,7 +18,7 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
   }
 
   let bookSrc = book.cover_edition_key
-    ? `${coverBase}/${book.cover_edition_key}-M.jpg`
+    ? `${coverBase}/b/olid/${book.cover_edition_key}-M.jpg`
     : "/images/questionMark.svg";
 
   let authorString: string;
