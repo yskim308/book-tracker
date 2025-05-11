@@ -13,9 +13,12 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
   const [imageError, setImageError] = useState<boolean>(false);
 
   const coverBase = process.env.NEXT_PUBLIC_BOOK_COVER_BASE;
+  if (!coverBase) {
+    throw new Error("book cover link env variable not found");
+  }
 
   let bookSrc = book.cover_edition_key
-    ? `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`
+    ? `${coverBase}/${book.cover_edition_key}-M.jpg`
     : "/images/questionMark.svg";
 
   let authorString: string;
@@ -29,7 +32,7 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
   }
 
   return (
-    <Link href={`${book.key}`}>
+    <Link href={`book/${book.cover_edition_key}`}>
       <div className="flex w-full p-1 hover:bg-gray-100 rounded-2xl">
         <div className="min-w-16 h-28 mr-2 relative">
           {loading && (
