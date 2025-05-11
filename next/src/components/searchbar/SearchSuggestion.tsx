@@ -12,6 +12,8 @@ export default function SearchSuggestion({ book }: SearchSuggestionProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [imageError, setImageError] = useState<boolean>(false);
 
+  const coverBase = process.env.NEXT_PUBLIC_BOOK_COVER_BASE;
+
   let bookSrc = book.cover_edition_key
     ? `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`
     : "/images/questionMark.svg";

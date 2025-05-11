@@ -24,6 +24,11 @@ export default function BookSearchbar() {
 
   // search the books api endpoint when the debounce value changes
 
+  const searchBase = process.env.NEXT_PUBLIC_BOOK_SEARCH_BASE;
+  if (!searchBase) {
+    throw new Error("environment variable for search not found");
+  }
+
   useEffect(() => {
     const search = async () => {
       try {
@@ -32,7 +37,7 @@ export default function BookSearchbar() {
           setBooks([]);
           return;
         }
-        const url = `https://openlibrary.org/search.json?q=${searchQuery}`;
+        const url = `${searchBase}?q=${searchQuery}`;
         const response = await fetch(url);
         const data = await response.json(); // toodo: set types for the data receieved
         const books: SearchBook[] = data.docs;
