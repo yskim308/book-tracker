@@ -12,7 +12,7 @@ export default function BookSearchbar() {
   const [loading, setLoading] = useState<boolean>(true);
 
   // set the debounce value on delay, on change of value;
-  const debounceDelay = 300;
+  const debounceDelay = 200;
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebounceValue(value);
