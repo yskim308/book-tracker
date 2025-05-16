@@ -9,9 +9,10 @@ export default function BookSearchbar() {
   const [debounceValue, setDebounceValue] = useState<string>("");
   const [books, setBooks] = useState<SearchBook[]>([]);
   const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // set the debounce value on delay, on change of value;
-  const debounceDelay = 150;
+  const debounceDelay = 300;
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebounceValue(value);
@@ -37,11 +38,14 @@ export default function BookSearchbar() {
           setBooks([]);
           return;
         }
+        setLoading(true);
+        console.log("searching now??");
         const url = `${searchBase}/search.json?q=${searchQuery}`;
         const response = await fetch(url);
         const data = await response.json(); // toodo: set types for the data receieved
         const books: SearchBook[] = data.docs;
-        console.log(data);
+        setLoading(false);
+        console.log("searching done");
         setBooks(books);
       } catch (e: unknown) {
         console.log(e);
@@ -91,7 +95,7 @@ export default function BookSearchbar() {
           onMouseDown={(e: React.MouseEvent) => e.preventDefault()}
           onClick={() => setOpen(false)}
         >
-          <SearchContainer books={books} />
+          <SearchContainer books={books} loading={loading} />
         </div>
       )}
     </div>
