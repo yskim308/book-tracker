@@ -23,6 +23,7 @@ export interface SearchBook {
 }
 
 export interface Work {
+  key: string;
   authors: {
     author: {
       key: string;
