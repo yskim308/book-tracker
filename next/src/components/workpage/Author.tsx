@@ -2,7 +2,11 @@ import type { Author } from "@/types";
 import { useState, useEffect } from "react";
 
 interface AuthorProps {
-  authors: Author[];
+  authors: {
+    author: {
+      key: string;
+    };
+  }[];
 }
 
 export default function Author({ authors }: AuthorProps) {
@@ -18,7 +22,7 @@ export default function Author({ authors }: AuthorProps) {
       try {
         const promises = authors.map(async (authorObject) => {
           const response = await fetch(
-            `${apiEndpoint}${authorObject.key}.json`,
+            `${apiEndpoint}${authorObject.author.key}.json`,
           );
           return await response.json();
         });
