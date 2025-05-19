@@ -23,12 +23,13 @@ export interface SearchBook {
 }
 
 export interface Work {
+  title: string;
   key: string;
   authors: {
     author: {
       key: string;
     };
-  };
+  }[];
   description: string;
   covers: number[];
   subjects: string[];
