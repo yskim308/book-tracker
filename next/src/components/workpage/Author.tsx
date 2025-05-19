@@ -39,7 +39,7 @@ export default function Author({ authors }: AuthorProps) {
   return (
     <div>
       {componentAuthors?.map((person: Author) => {
-        return <h1>{person.name}</h1>;
+        return <h1 key={person.key}>{person.name}</h1>;
       })}
     </div>
   );
