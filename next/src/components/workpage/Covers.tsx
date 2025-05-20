@@ -25,7 +25,8 @@ export default function Covers({ keys }: CoversProps) {
     const getCovers = async () => {
       try {
         setLoading(true);
-        const promises = keys.map(async (key) => {
+        const keysToFetch = keys.slice(0, 10);
+        const promises = keysToFetch.map(async (key) => {
           const response = await fetch(`${coverBase}/b/id/${key}-L.jpg`);
           const blob = await response.blob();
           return URL.createObjectURL(blob);
@@ -44,8 +45,9 @@ export default function Covers({ keys }: CoversProps) {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        Loading covers...
+      <div className="flex flex-col items-center justify-center min-h-64">
+        <div className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-blue-500 animate-spin mb-4"></div>
+        <p className="text-gray-600">Loading book covers...</p>
       </div>
     );
   }
@@ -56,7 +58,7 @@ export default function Covers({ keys }: CoversProps) {
 
   return (
     <Carousel className="w-full max-w-lg mx-auto">
-      <CarouselContent>
+      <CarouselContent className="flex-justify-center">
         {images.map((imageUrl, index) => (
           <CarouselItem key={`cover-${keys[index]}`} className="basis-1/3">
             <div className="p-1">
