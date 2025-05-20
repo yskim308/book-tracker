@@ -26,8 +26,9 @@ export default function Covers({ keys }: CoversProps) {
       try {
         setLoading(true);
         const promises = keys.map(async (key) => {
-          const response = await fetch(`${coverBase}/b/olid/${key}-L.jpg`);
-          return await response.json();
+          const response = await fetch(`${coverBase}/b/id/${key}-L.jpg`);
+          const blob = await response.blob();
+          return URL.createObjectURL(blob);
         });
         const fetchedData: string[] = await Promise.all(promises);
         setImages(fetchedData);
