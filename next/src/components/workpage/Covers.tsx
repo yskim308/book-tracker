@@ -60,7 +60,10 @@ export default function Covers({ keys }: CoversProps) {
     <Carousel className="w-full max-w-lg mx-auto">
       <CarouselContent className="flex-justify-center">
         {images.map((imageUrl, index) => (
-          <CarouselItem key={`cover-${keys[index]}`} className="basis-1/3">
+          <CarouselItem
+            key={`cover-${keys[index]}`}
+            className="basis-1/2 md:basis-1/3"
+          >
             <div className="p-1">
               <div className="flex aspect-9/16 items-center justify-center p-2 relative rounded-md overflow-hidden border border-gray-200">
                 <Image
