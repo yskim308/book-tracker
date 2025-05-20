@@ -58,12 +58,9 @@ export default function Covers({ keys }: CoversProps) {
     <Carousel className="w-full max-w-lg mx-auto">
       <CarouselContent>
         {images.map((imageUrl, index) => (
-          <CarouselItem
-            key={`cover-${keys[index]}`}
-            className="md:basis-1/2 lg:basis-1/3"
-          >
+          <CarouselItem key={`cover-${keys[index]}`} className="basis-1/3">
             <div className="p-1">
-              <div className="flex aspect-square items-center justify-center p-2 relative rounded-md overflow-hidden border border-gray-200">
+              <div className="flex aspect-9/16 items-center justify-center p-2 relative rounded-md overflow-hidden border border-gray-200">
                 <Image
                   src={imageUrl}
                   alt={`Book cover ${keys[index]}`}
@@ -76,8 +73,8 @@ export default function Covers({ keys }: CoversProps) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="left-0" />
-      <CarouselNext className="right-0" />
+      <CarouselPrevious className="bg-blue-50" />
+      <CarouselNext className="bg-blue-50" />
     </Carousel>
   );
 }
