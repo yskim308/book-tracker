@@ -1,0 +1,43 @@
+"use client";
+
+import { useState } from "react";
+
+interface SubjectsProps {
+  subjects: string[];
+}
+
+export default function Subjects({ subjects }: SubjectsProps) {
+  const [showAll, setShowAll] = useState<boolean>(false);
+
+  if (!subjects || subjects.length === 0) {
+    return null;
+  }
+
+  const displaySubjects = showAll ? subjects : subjects.slice(0, 5);
+  const hasMore: boolean = subjects.length > 5;
+
+  return (
+    <div>
+      <h2 className="text-lg font-medium text-slate-700">Subjects</h2>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {displaySubjects.map((subject, index) => (
+          <span
+            key={index}
+            className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-800"
+          >
+            {subject}
+          </span>
+        ))}
+      </div>
+
+      {hasMore && (
+        <button
+          onClick={() => setShowAll(!showAll)}
+          className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          {showAll ? "Show less" : `Show ${subjects.length - 5} more`}
+        </button>
+      )}
+    </div>
+  );
+}
