@@ -28,16 +28,15 @@ export default function Subjects({ subjects }: SubjectsProps) {
             {subject}
           </span>
         ))}
+        {hasMore && (
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="mt-1 text-sm font-medium hover:underline"
+          >
+            {showAll ? "Show less" : `...${subjects.length - 5} more`}
+          </button>
+        )}
       </div>
-
-      {hasMore && (
-        <button
-          onClick={() => setShowAll(!showAll)}
-          className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
-        >
-          {showAll ? "Show less" : `Show ${subjects.length - 5} more`}
-        </button>
-      )}
     </div>
   );
 }
