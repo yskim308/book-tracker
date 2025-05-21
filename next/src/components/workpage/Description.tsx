@@ -12,12 +12,7 @@ export default function Description({ description }: DescriptionProps) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   // Parse the description to handle different formats
-  const descriptionText =
-    typeof description === "string"
-      ? description
-      : description && typeof description === "object" && "value" in description
-        ? description.value
-        : null;
+  const descriptionText = typeof description === "string" ? description : null;
 
   // Check if content overflows the container
   useEffect(() => {
