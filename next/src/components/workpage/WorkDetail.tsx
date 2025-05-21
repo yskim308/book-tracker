@@ -2,6 +2,7 @@ import type { Work } from "@/types";
 import Author from "./Author";
 import Covers from "./Covers";
 import Subjects from "./Subjects";
+import Description from "./Description";
 
 interface WorkDetailProps {
   work: Work;
@@ -24,16 +25,7 @@ export default function WorkDetail({ work }: WorkDetailProps) {
           </div>
         </div>
 
-        <div>
-          <h2 className="text-lg font-medium text-slate-700">Description</h2>
-          <div className="prose prose-slate max-w-none">
-            {typeof work.description === "string" ? (
-              <p>{work.description}</p>
-            ) : (
-              <p className="text-slate-500 italic">No description available</p>
-            )}
-          </div>
-        </div>
+        <Description description={work.description} />
 
         {work.subjects && work.subjects.length > 0 && (
           <Subjects subjects={work.subjects} />
