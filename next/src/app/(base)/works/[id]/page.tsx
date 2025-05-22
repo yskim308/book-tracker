@@ -31,7 +31,7 @@ export default function Page() {
   }, [bookId, apiEndpoint]);
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-1">
       {isLoading ? (
         <div className="flex flex-col items-center justify-center min-h-64">
           <div className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-blue-500 animate-spin mb-4"></div>
