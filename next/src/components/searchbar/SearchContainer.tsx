@@ -30,7 +30,7 @@ export default function SearchContainer({
                 <SearchSuggestion key={book.key} book={book} />
               ))
           ) : (
-            <h1>empty</h1>
+            <h1 className="font-thin flex justify-center">search for books</h1>
           )}
         </ScrollArea>
       )}

@@ -39,16 +39,15 @@ export default function BookSearchbar() {
           return;
         }
         setLoading(true);
-        console.log("searching now??");
         const url = `${searchBase}/search.json?q=${searchQuery}`;
         const response = await fetch(url);
         const data = await response.json(); // toodo: set types for the data receieved
         const books: SearchBook[] = data.docs;
-        setLoading(false);
-        console.log("searching done");
         setBooks(books);
       } catch (e: unknown) {
         console.log(e);
+      } finally {
+        setLoading(false);
       }
     };
 
