@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Separator } from "radix-ui";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 interface ProfileContextProps {
   name: string;
@@ -8,16 +9,24 @@ interface ProfileContextProps {
 
 export default function ProfileContext({ name, picture }: ProfileContextProps) {
   return (
-    <div className="w-full flex flex-col items-center p-2">
-      <Image
-        src={picture}
-        alt="/images/account-circle-outline"
-        width={60}
-        height={60}
-        className="rounded-full"
-      />
-      <div>hi, {name}</div>
-      <Separator.Separator className="h-px w-full bg-gray-400 mt-3" />
+    <div className="flex flex-col items-center p-4 bg-card">
+      <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-primary/10 mb-3">
+        <Image
+          src={picture || "/placeholder.svg"}
+          alt={`${name}'s profile picture`}
+          fill
+          className="object-cover"
+        />
+      </div>
+
+      <div className="flex flex-col items-center gap-1.5">
+        <h3 className="font-medium text-lg">{name}</h3>
+        <Badge variant="secondary" className="text-xs font-normal">
+          Logged In
+        </Badge>
+      </div>
+
+      <Separator className="my-3" />
     </div>
   );
 }
