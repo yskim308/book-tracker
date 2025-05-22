@@ -19,7 +19,6 @@ export default function Page() {
         setIsLoading(true);
         const response = await fetch(`${apiEndpoint}/works/${bookId}.json`);
         const data: Work = await response.json();
-        console.log(data);
         setWork(data);
       } catch (e) {
         console.log(e);
