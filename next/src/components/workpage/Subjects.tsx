@@ -23,7 +23,7 @@ export default function Subjects({ subjects }: SubjectsProps) {
         {displaySubjects.map((subject, index) => (
           <span
             key={index}
-            className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-800"
+            className="inline-flex items-center rounded-md bg-blue-100 px-3 py-1 text-sm font-medium text-slate-800"
           >
             {subject}
           </span>
@@ -33,7 +33,7 @@ export default function Subjects({ subjects }: SubjectsProps) {
             onClick={() => setShowAll(!showAll)}
             className="mt-1 text-sm font-medium hover:underline"
           >
-            {showAll ? "Show less" : `...${subjects.length - 5} more`}
+            {showAll ? "show less" : `...${subjects.length - 5} more`}
           </button>
         )}
       </div>
