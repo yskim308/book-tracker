@@ -2,7 +2,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { DropdownMenu } from "radix-ui";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 import LogoutButton from "./LogoutButton";
 import ProfileContext from "./ProfileContext";
 
@@ -39,37 +44,30 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="">
-      <div>
-        {loading ? (
-          <h1>loading</h1>
-        ) : (
-          <div>
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger>
-                <Image
-                  src={picture}
-                  alt="/images/account-circle-outline"
-                  width={95}
-                  height={95}
-                  className="rounded-full w-8 md:w-10"
-                />
-              </DropdownMenu.Trigger>
+    <div className="relative">
+      {loading ? (
+        <div className="flex items-center space-x-2">
+          <Skeleton className="h-10 w-10 rounded-full" />
+        </div>
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger className="focus:outline-none">
+            <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-primary/10 transition-all hover:ring-2 hover:ring-primary/20">
+              <Image
+                src={picture || "/placeholder.svg"}
+                alt={`${name}'s profile picture`}
+                fill
+                className="object-cover"
+              />
+            </div>
+          </DropdownMenuTrigger>
 
-              <DropdownMenu.Portal>
-                <DropdownMenu.Content className="w-50 bg-gray-200 m-5 p-3 rounded-3xl">
-                  <DropdownMenu.Item className="rounded-2xl focus:outline-none">
-                    <ProfileContext name={name} picture={picture} />
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="focus:outline-none">
-                    <LogoutButton />
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu.Portal>
-            </DropdownMenu.Root>
-          </div>
-        )}
-      </div>
+          <DropdownMenuContent align="end" className="w-56 p-0 overflow-hidden">
+            <ProfileContext name={name} picture={picture} />
+            <LogoutButton />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </div>
   );
 }
