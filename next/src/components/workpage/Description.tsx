@@ -48,7 +48,7 @@ export default function Description({ description }: DescriptionProps) {
         <div
           ref={contentRef}
           className={`prose prose-slate max-w-none overflow-hidden transition-all duration-300 ${
-            expanded ? "" : "max-h-[150px]"
+            expanded ? "" : "max-h-[80px] md:max-h-[150px]"
           }`}
         >
           <p>{descriptionText}</p>
