@@ -37,9 +37,16 @@ export default function Author({ authors }: AuthorProps) {
   }, []);
 
   return (
-    <div>
+    <div className="flex">
       {componentAuthors?.map((person: Author) => {
-        return <h1 key={person.key}>{person.name}</h1>;
+        return (
+          <h1
+            key={person.key}
+            className="px-2 mx-1 py-1 bg-blue-100 text-slate-800 rounded-md font-md"
+          >
+            {person.name}
+          </h1>
+        );
       })}
     </div>
   );
