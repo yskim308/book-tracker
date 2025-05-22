@@ -23,6 +23,7 @@ export default function Description({ description }: DescriptionProps) {
     }
   }, [description]);
 
+  //todo: fix the button for show more
   if (!descriptionText) {
     return (
       <div>
@@ -44,17 +45,12 @@ export default function Description({ description }: DescriptionProps) {
         >
           <p>{descriptionText}</p>
         </div>
-
-        {hasOverflow && !expanded && (
-          <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent"></div>
-        )}
-
         {hasOverflow && (
           <button
             onClick={() => setExpanded(!expanded)}
-            className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+            className="text-sm font-medium text-slate-700 hover:underline transition-colors"
           >
-            {expanded ? "Show less" : "Show more"}
+            {expanded ? "...show less" : "...show more"}
           </button>
         )}
       </div>
