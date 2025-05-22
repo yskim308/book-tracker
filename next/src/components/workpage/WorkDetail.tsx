@@ -15,7 +15,7 @@ export default function WorkDetail({ work }: WorkDetailProps) {
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
       <div className="flex-col items-center px-4">
         <Covers keys={work.covers} />
-        <ScrollArea className="h-72">
+        <ScrollArea className="h-1/2">
           <div className="flex flex-col space-y-3 px-4">
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
