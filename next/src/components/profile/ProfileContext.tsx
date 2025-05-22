@@ -9,7 +9,7 @@ interface ProfileContextProps {
 
 export default function ProfileContext({ name, picture }: ProfileContextProps) {
   return (
-    <div className="flex flex-col items-center p-4 bg-card">
+    <div className="flex flex-col items-center pt-2 px-2 bg-card">
       <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-primary/10 mb-3">
         <Image
           src={picture || "/placeholder.svg"}
@@ -26,7 +26,7 @@ export default function ProfileContext({ name, picture }: ProfileContextProps) {
         </Badge>
       </div>
 
-      <Separator className="my-3" />
+      <Separator className="mt-3" />
     </div>
   );
 }

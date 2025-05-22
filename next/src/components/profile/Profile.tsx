@@ -62,7 +62,10 @@ export default function Profile() {
             </div>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end" className="w-56 p-0 overflow-hidden">
+          <DropdownMenuContent
+            align="end"
+            className="w-56 p-0 overflow-hidden rounded-lg"
+          >
             <ProfileContext name={name} picture={picture} />
             <LogoutButton />
           </DropdownMenuContent>
