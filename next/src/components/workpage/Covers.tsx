@@ -58,7 +58,7 @@ export default function Covers({ keys }: CoversProps) {
 
   return (
     <Carousel className="w-full max-w-lg mx-auto">
-      <CarouselContent className="flex-justify-center">
+      <CarouselContent className="flex justify-center">
         {images.map((imageUrl, index) => (
           <CarouselItem
             key={`cover-${keys[index]}`}
@@ -78,8 +78,8 @@ export default function Covers({ keys }: CoversProps) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="bg-blue-50" />
-      <CarouselNext className="bg-blue-50" />
+      <CarouselPrevious className="bg-blue-50 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 md:-translate-x-full" />
+      <CarouselNext className="bg-blue-50 absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 md:translate-x-full" />{" "}
     </Carousel>
   );
 }
