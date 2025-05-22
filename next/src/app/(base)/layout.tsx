@@ -8,7 +8,7 @@ export default function Layout({
     <div>
       <div className="flex justify-center relative my-5">
         <BookSearchbar />
-        <div className="absolute right-0 mx-2 md:mx-5 my-1 md:my-0 flex flex-col justify-center">
+        <div className="absolute right-0 mx-2 md:mx-5 flex justify-center">
           <Profile />
         </div>
       </div>
