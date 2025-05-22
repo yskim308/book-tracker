@@ -30,7 +30,7 @@ export interface Work {
       key: string;
     };
   }[];
-  description: string;
+  description: string | { value: string } | undefined;
   covers: number[];
   subjects: string[];
 }
