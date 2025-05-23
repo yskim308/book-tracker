@@ -1,6 +1,5 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
@@ -15,25 +14,57 @@ datasource db {
 }
 
 model User {
-    id       Int     @id @default(autoincrement())
-    googleId String? @unique
-    name     String?
-    email    String?
-    picture  String?
-    books    Book[] // Relation to Book objects
+    id          Int         @id @default(autoincrement())
+    googleId    String?     @unique
+    name        String?
+    email       String?
+    picture     String?
+    books       Book[] // Relation to Book objects
+    bookshelves Bookshelf[] // Relation to Bookshelf objects
 }
 
 model Book {
     id             Int       @id @default(autoincrement())
     user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId         Int
-    title          String
-    link           String? // Making the link optional
-    review         String? // Making the review optional
+    externalId     String // Key for external API (e.g., Google Books API ID, ISBN, etc.)
     completionDate DateTime? // Making the completion date optional
     status         Status    @default(TO_READ)
 
+    // Many-to-many relationship with bookshelves
+    bookshelves BookshelfBook[]
+
     @@index([userId])
+    @@index([externalId])
+}
+
+model Bookshelf {
+    id          Int      @id @default(autoincrement())
+    name        String
+    description String?
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      Int
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    // Many-to-many relationship with books
+    books BookshelfBook[]
+
+    @@index([userId])
+}
+
+// Junction table for many-to-many relationship between Book and Bookshelf
+model BookshelfBook {
+    id          Int       @id @default(autoincrement())
+    book        Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+    bookId      Int
+    bookshelf   Bookshelf @relation(fields: [bookshelfId], references: [id], onDelete: Cascade)
+    bookshelfId Int
+    addedAt     DateTime  @default(now())
+
+    @@unique([bookId, bookshelfId]) // Prevent duplicate entries
+    @@index([bookId])
+    @@index([bookshelfId])
 }
 
 enum Status {
