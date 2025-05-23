@@ -2,10 +2,11 @@
 
 import type { Edition, Work } from "@/types";
 import { useEffect, useState } from "react";
-import { EditionCard } from "./edition-card";
+import { EditionCard } from "./EditionCard";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, BookOpen } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface EditionsContainerProps {
   work: Work;
@@ -95,9 +96,11 @@ export default function EditionsContainer({ work }: EditionsContainerProps) {
         Editions ({editions.length})
       </h2>
       <div>
-        {editions.map((edition, index) => (
-          <EditionCard key={`${edition.key || index}`} edition={edition} />
-        ))}
+        <ScrollArea className="h-[300px] md:h-[800px]">
+          {editions.map((edition, index) => (
+            <EditionCard key={`${index}`} edition={edition} />
+          ))}
+        </ScrollArea>
       </div>
     </div>
   );
