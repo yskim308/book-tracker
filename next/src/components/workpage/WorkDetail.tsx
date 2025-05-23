@@ -4,6 +4,7 @@ import Covers from "./Covers";
 import Subjects from "./Subjects";
 import Description from "./Description";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import EditionsContainer from "../edition/EditionsContainer";
 
 interface WorkDetailProps {
   work: Work;
@@ -36,7 +37,7 @@ export default function WorkDetail({ work }: WorkDetailProps) {
         </ScrollArea>
       </div>
       <div>
-        <h1>hello world</h1>
+        <EditionsContainer work={work} />
       </div>
     </div>
   );

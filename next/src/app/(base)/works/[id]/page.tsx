@@ -1,5 +1,5 @@
 "use client";
-import type { Work, Edition } from "@/types";
+import type { Work } from "@/types";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import WorkDetail from "@/components/workpage/WorkDetail";
@@ -9,7 +9,6 @@ export default function Page() {
   const bookId = params.id;
   const apiEndpoint = process.env.NEXT_PUBLIC_BOOK_SEARCH_BASE;
   const [work, setWork] = useState<Work | null>(null);
-  const [editions, setEditions] = useState<Edition[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // getting the work on reload
