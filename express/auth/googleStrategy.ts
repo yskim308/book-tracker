@@ -46,6 +46,18 @@ passport.use(
           name: name,
           email: email,
           picture: picture,
+          bookshelves: {
+            create: [
+              {
+                name: "to-read",
+                description: "books to read",
+              },
+              {
+                name: "read",
+                description: "already read books",
+              },
+            ],
+          },
         },
       });
       return done(null, user);
