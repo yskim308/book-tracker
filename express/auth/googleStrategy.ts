@@ -56,6 +56,10 @@ passport.use(
                 name: "read",
                 description: "already read books",
               },
+              {
+                name: "currently reading",
+                description: "books you are actively reading",
+              },
             ],
           },
         },
