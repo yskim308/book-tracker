@@ -250,14 +250,26 @@ router.get(
         },
         select: {
           name: true,
+          _count: {
+            select: {
+              books: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "asc",
         },
       });
 
+      const bookshelvesWithCount = bookshelves.map((shelf) => {
+        return {
+          name: shelf.name,
+          count: shelf._count.books,
+        };
+      });
+
       res.json({
-        bookshelves: bookshelves,
+        bookshelves: bookshelvesWithCount,
       });
     } catch (e) {
       console.error(e);
