@@ -40,6 +40,7 @@ router.get(
         id: userId,
       },
       select: {
+        id: true,
         name: true,
         picture: true,
       },
@@ -47,6 +48,7 @@ router.get(
     console.log("from /getUser: ");
     console.log(user);
     res.status(201).json({
+      id: user?.id,
       name: user?.name,
       picture: user?.picture,
     });
