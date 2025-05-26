@@ -1,6 +1,6 @@
 import express from "express";
-import { PrismaClient } from "@/generated/prisma";
-import verifyJwt from "@/middleware/authenticateJwt";
+import { PrismaClient } from "../generated/prisma";
+import verifyJwt from "../middleware/authenticateJwt";
 export { router };
 
 const router = express.Router();
