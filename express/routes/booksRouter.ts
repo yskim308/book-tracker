@@ -103,6 +103,7 @@ router.post(
   },
 );
 
+//delete a book from a bookshelf
 router.delete(
   "/bookshelves/:bookshelfName",
   verifyJwt,
@@ -179,6 +180,7 @@ router.delete(
   },
 );
 
+// get all books in a bookshelf
 router.get("/bookshelves/:bookshelfName", verifyJwt, async (req, res) => {
   try {
     const userId = res.locals.userId;
@@ -230,3 +232,32 @@ router.get("/bookshelves/:bookshelfName", verifyJwt, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+router.get(
+  "/bookshelves",
+  verifyJwt,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = res.locals.userId;
+
+      const bookshelves = await prisma.bookshelf.findMany({
+        where: {
+          userId: userId,
+        },
+        select: {
+          name: true,
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+      });
+
+      res.json({
+        bookshelves: bookshelves,
+      });
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ error: "internal server error" });
+    }
+  },
+);
