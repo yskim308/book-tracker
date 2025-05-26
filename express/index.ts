@@ -4,6 +4,7 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import { router as GoogleAuthRouter } from "./routes/googleAuthRouter";
 import { router as HomeRouter } from "./routes/homeRouter";
+import { router as BookRouter } from "./routes/booksRouter";
 
 const port = 4000;
 
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use("/auth/google", GoogleAuthRouter);
 app.use("/", HomeRouter);
+app.use("/", BookRouter);
 
 app.listen(port, () => {
   console.log("listening on port: " + port);
