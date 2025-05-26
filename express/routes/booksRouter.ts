@@ -101,3 +101,79 @@ router.post(
     }
   },
 );
+
+router.delete(
+  "/bookshelves/:bookshelfName",
+  verifyJwt,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = res.locals.userId;
+      const bookshelfName = req.params.bookshelfName;
+      const { externalId } = req.body;
+
+      if (!bookshelfName) {
+        res.status(400).json({ error: "Bookshelf name is required" });
+        return;
+      }
+
+      if (!externalId) {
+        res.status(400).json({ error: "External ID is required" });
+        return;
+      }
+
+      // Verify bookshelf belongs to user
+      const bookshelf = await prisma.bookshelf.findFirst({
+        where: {
+          name: bookshelfName,
+          userId: userId,
+        },
+      });
+
+      if (!bookshelf) {
+        res.status(404).json({ error: "Bookshelf not found or access denied" });
+        return;
+      }
+
+      // Find book by externalId for this user
+      const book = await prisma.book.findFirst({
+        where: {
+          externalId: externalId,
+          userId: userId,
+        },
+      });
+
+      if (!book) {
+        res.status(404).json({ error: "Book not found in your library" });
+        return;
+      }
+
+      // Find and delete the bookshelf-book relationship
+      const bookshelfBook = await prisma.bookshelfBook.findUnique({
+        where: {
+          bookId_bookshelfId: {
+            bookId: book.id,
+            bookshelfId: bookshelf.id,
+          },
+        },
+      });
+
+      if (!bookshelfBook) {
+        res.status(404).json({ error: "Book is not in this bookshelf" });
+        return;
+      }
+
+      await prisma.bookshelfBook.delete({
+        where: {
+          id: bookshelfBook.id,
+        },
+      });
+
+      res.json({
+        message: "Book removed from bookshelf successfully",
+      });
+    } catch (error) {
+      console.error("Error removing book from bookshelf:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+);
