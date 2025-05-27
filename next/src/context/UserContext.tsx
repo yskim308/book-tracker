@@ -2,9 +2,14 @@ import { createContext, useState, useEffect, useContext } from "react";
 import type { ReactNode } from "react";
 import { User } from "@/types";
 
-const UserContext = createContext<User | null>(null);
+interface UserContextType {
+  user: User | null;
+  loading: boolean;
+}
 
-export function useUser(): User {
+const UserContext = createContext<UserContextType | null>(null);
+
+export function useUserState(): UserContextType {
   const context = useContext(UserContext);
   if (!context) {
     throw new Error("useUser must be used within a UserProvider");
@@ -18,7 +23,7 @@ interface UserProviderProps {
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  const [userId, setUserId] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
@@ -37,9 +42,23 @@ export function UserProvider({ children }: UserProviderProps) {
         if (!response.ok) {
           window.location.href = "/signIn";
         }
+
+        const user: User = await response.json();
+        setUser(user);
       } catch (e) {
         console.error("error: " + e);
+      } finally {
+        setLoading(false);
       }
     };
+
+    fetchId();
   });
+
+  const value = {
+    user,
+    loading,
+  };
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
