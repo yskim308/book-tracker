@@ -4,7 +4,7 @@ export interface User {
   name?: string;
   email?: string;
   picture?: string;
-  books: UserBook[];
+  isLoading: boolean;
 }
 
 export interface UserBook {
