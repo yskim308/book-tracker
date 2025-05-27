@@ -10,38 +10,11 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import LogoutButton from "./LogoutButton";
 import ProfileContext from "./ProfileContext";
+import { useUserState } from "@/context/UserContext";
 
 export default function Profile() {
-  const [name, setName] = useState<string>("");
-  const [picture, setPicture] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-
+  const { user, loading } = useUserState();
   const router = useRouter();
-
-  const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await fetch(`${backendBase}/getUser`, {
-          method: "GET",
-          credentials: "include",
-        });
-        if (response.status === 401) {
-          console.log("unauthorized");
-          router.push("/signIn");
-        }
-        const data = await response.json();
-        setName(data.name);
-        setPicture(data.picture);
-        setLoading(false);
-        console.log(data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    getData();
-  }, []);
 
   return (
     <div className="relative">
@@ -54,7 +27,7 @@ export default function Profile() {
           <DropdownMenuTrigger className="focus:outline-none">
             <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-primary/10 transition-all hover:ring-2 hover:ring-primary/20">
               <Image
-                src={picture || "/placeholder.svg"}
+                src={user?.picture || "/placeholder.svg"}
                 alt={`${name}'s profile picture`}
                 fill
                 className="object-cover"
@@ -66,7 +39,7 @@ export default function Profile() {
             align="end"
             className="w-56 p-0 overflow-hidden rounded-lg"
           >
-            <ProfileContext name={name} picture={picture} />
+            <ProfileContext name={user?.name} picture={user?.picture} />
             <LogoutButton />
           </DropdownMenuContent>
         </DropdownMenu>

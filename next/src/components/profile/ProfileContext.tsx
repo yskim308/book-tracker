@@ -3,8 +3,8 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
 interface ProfileContextProps {
-  name: string;
-  picture: string;
+  name: string | undefined;
+  picture: string | undefined;
 }
 
 export default function ProfileContext({ name, picture }: ProfileContextProps) {
