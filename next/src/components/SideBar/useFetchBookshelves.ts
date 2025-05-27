@@ -8,7 +8,7 @@ interface Bookshelf {
   count: number;
 }
 
-export default function SideBarContainer() {
+export default function useFetchBookshelves() {
   const { user, loading } = useUserState();
   const [bookshelves, setBookshelves] = useState<Bookshelf[] | null>(null);
   const [shelfLoading, setShelfLoading] = useState<boolean>(true);
