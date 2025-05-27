@@ -54,7 +54,7 @@ export function UserProvider({ children }: UserProviderProps) {
     };
 
     fetchId();
-  });
+  }, []);
 
   const value = {
     user,
