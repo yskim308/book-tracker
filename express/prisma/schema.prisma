@@ -29,6 +29,8 @@ model Book {
     userId         Int
     externalId     String // Key for external API (e.g., Google Books API ID, ISBN, etc.)
     completionDate DateTime? // Making the completion date optional
+    author         String[]
+    title          String
     status         Status    @default(TO_READ)
 
     // Many-to-many relationship with bookshelves
