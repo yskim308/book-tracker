@@ -7,6 +7,13 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 // Add book to bookshelf
+//
+interface BookCreationBody {
+  externalId: string;
+  status: "READ" | "TO_READ" | "READING";
+  title: string;
+  authors: string[];
+}
 router.post(
   "/bookshelves/:bookshelfName",
   verifyJwt,
@@ -14,7 +21,7 @@ router.post(
     try {
       const userId = res.locals.userId;
       const bookshelfName = req.params.bookshelfName;
-      const { externalId, status = "TO_READ" } = req.body;
+      const { externalId, status, title, authors }: BookCreationBody = req.body;
 
       if (!bookshelfName) {
         res.status(400).json({ error: "Bookshelf name is required" });
@@ -55,6 +62,8 @@ router.post(
             userId: userId,
             externalId: externalId,
             status: status as "READ" | "READING" | "TO_READ",
+            title: title,
+            author: authors,
           },
         });
         bookCreated = true;
