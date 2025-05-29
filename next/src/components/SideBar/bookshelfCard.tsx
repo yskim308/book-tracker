@@ -19,20 +19,23 @@ export function BookshelfCard({ name, count }: BookshelfCardProps) {
 
   return (
     <Card
-      className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] hover:bg-accent/50 border-border/50"
+      className="cursor-pointer transition-all duration-100 hover:bg-accent/50 border-border/50 my-1 py-1 rounded-lg"
       onClick={handleClick}
     >
-      <CardContent className="p-4">
+      <CardContent className="p-0">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-primary/10">
+          <div className="flex items-center gap-1">
+            <div className="p-2 rounded-lg bg-inherit">
               <BookOpen className="h-4 w-4 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-medium text-sm truncate">{name}</h3>
             </div>
           </div>
-          <Badge variant="secondary" className="ml-2 text-xs">
+          <Badge
+            variant="default"
+            className="ml-2 text-xs bg-inherit text-slate-900"
+          >
             {count}
           </Badge>
         </div>
