@@ -10,7 +10,7 @@ interface Bookshelf {
 
 export default function useFetchBookshelves() {
   const { user, loading } = useUserState();
-  const [bookshelves, setBookshelves] = useState<Bookshelf[] | null>(null);
+  const [bookshelves, setBookshelves] = useState<Bookshelf[] | null>([]);
   const [shelfLoading, setShelfLoading] = useState<boolean>(true);
 
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
@@ -20,13 +20,14 @@ export default function useFetchBookshelves() {
 
   useEffect(() => {
     const getShelves = async () => {
+      if (loading) {
+        return;
+      }
       try {
-        if (loading) {
-          return;
-        }
         const response = await fetch(`${backendBase}/bookshelves`, {
           credentials: "include",
         });
+        console.log("fetching bookshelves");
         if (!response.ok) {
           console.error("error with getting api: ", response);
           return;
@@ -36,6 +37,7 @@ export default function useFetchBookshelves() {
       } catch (e) {
         console.error("error with api: " + e);
       } finally {
+        console.log("fetch complete");
         setShelfLoading(false);
       }
     };
