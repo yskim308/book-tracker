@@ -237,6 +237,7 @@ router.get(
   },
 );
 
+// get all bookshelves
 router.get(
   "/bookshelves",
   verifyJwt,
