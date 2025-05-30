@@ -12,12 +12,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { BookshelfCard } from "./bookshelfCard";
-import useFetchBookshelves from "./useFetchBookshelves";
+import { useUserState } from "@/context/UserContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Library } from "lucide-react";
 
 export function AppSidebar() {
-  const { bookshelves, shelfLoading, user, loading } = useFetchBookshelves();
+  const { bookshelves, shelfLoading, user, loading } = useUserState();
 
   return (
     <Sidebar>
