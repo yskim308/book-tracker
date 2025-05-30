@@ -5,6 +5,7 @@ import Subjects from "./Subjects";
 import Description from "./Description";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import EditionsContainer from "../edition/EditionsContainer";
+import AddBookButton from "./AddBookButton";
 
 interface WorkDetailProps {
   work: Work;
@@ -21,6 +22,7 @@ export default function WorkDetail({ work }: WorkDetailProps) {
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
                 {work.title}
+                <AddBookButton />
               </h1>
               <div className="mt-1">
                 <h2 className="text-lg font-medium text-slate-700">Authors</h2>
