@@ -57,3 +57,8 @@ export interface Author {
   name: string;
   bio: string;
 }
+
+export interface Bookshelf {
+  name: string;
+  count: number;
+}
