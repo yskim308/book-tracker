@@ -13,6 +13,9 @@ import type { Bookshelf } from "@/types";
 interface UserContextType {
   user: User | null;
   loading: boolean;
+  shelfLoading: boolean;
+  bookshelves: Bookshelf[];
+  refetchBookshelves: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
