@@ -57,7 +57,7 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${backendBase}/books/check${bookData.externalId}`,
+        `${backendBase}/books/check/${bookData.externalId}`,
         {
           credentials: "include",
         },
