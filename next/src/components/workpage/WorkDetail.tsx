@@ -27,6 +27,7 @@ export default function WorkDetail({ work }: WorkDetailProps) {
 
   // getting tue author info when work changes
   useEffect(() => {
+    console.log("extenral id: " + work.key);
     const getAuthor = async () => {
       try {
         const promises = work.authors.map(async (authorObject) => {
@@ -39,7 +40,7 @@ export default function WorkDetail({ work }: WorkDetailProps) {
         const fetchedData: Author[] = await Promise.all(promises);
         setComponentAuthors(fetchedData);
         setBookData({
-          externalId: work.key.replace("works/", ""),
+          externalId: work.key.replace("/works/", ""),
           title: work.title,
           authors: fetchedData.map((author) => author.name),
         });

@@ -52,6 +52,7 @@ router.get(
           },
         });
       } else {
+        console.log("book: " + externalId + " does not exist");
         res.json({
           exists: false,
         });
@@ -78,7 +79,6 @@ router.post(
     try {
       const userId = res.locals.userId;
       const bookshelfName = req.params.bookshelfName;
-      console.log(req.body);
       const { externalId, status, title, authors }: BookCreationBody = req.body;
 
       if (!bookshelfName) {

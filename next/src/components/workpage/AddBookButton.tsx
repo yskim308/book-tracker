@@ -67,8 +67,10 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
         const data = await response.json();
         if (data.exists) {
           setExistingBook(data.book);
+          console.log("book exists");
         } else {
           setExistingBook(null);
+          console.log("book doesn't exist");
         }
       }
     } catch (error) {
