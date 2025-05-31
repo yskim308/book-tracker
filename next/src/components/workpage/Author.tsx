@@ -2,43 +2,13 @@ import type { Author } from "@/types";
 import { useState, useEffect } from "react";
 
 interface AuthorProps {
-  authors: {
-    author: {
-      key: string;
-    };
-  }[];
+  authors: Author[] | null;
 }
 
-export default function Author({ authors }: AuthorProps) {
-  const [componentAuthors, setComponentAuthors] = useState<Author[] | null>(
-    null,
-  );
-
-  const apiEndpoint = process.env.NEXT_PUBLIC_BOOK_SEARCH_BASE;
-
-  // getting tue author info when work changes
-  useEffect(() => {
-    const getAuthor = async () => {
-      try {
-        const promises = authors.map(async (authorObject) => {
-          const response = await fetch(
-            `${apiEndpoint}${authorObject.author.key}.json`,
-          );
-          return await response.json();
-        });
-
-        const fetchedData: Author[] = await Promise.all(promises);
-        setComponentAuthors(fetchedData);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getAuthor();
-  }, []);
-
+export default function AuthorComponent({ authors }: AuthorProps) {
   return (
     <div className="flex">
-      {componentAuthors?.map((person: Author) => {
+      {authors?.map((person: Author) => {
         return (
           <h1
             key={person.key}
