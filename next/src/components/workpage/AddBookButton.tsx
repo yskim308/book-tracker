@@ -57,7 +57,7 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${backendBase}/books/check/${bookData.externalId}`,
+        `${backendBase}/books/check${bookData.externalId}`,
         {
           credentials: "include",
         },
@@ -97,6 +97,9 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
         authors: bookData.authors,
         ...(!existingBook && { status: selectedStatus }),
       };
+      console.log("trying to submit: ");
+      console.log(requestBody);
+      console.log(JSON.stringify(requestBody));
 
       const response = await fetch(
         `${backendBase}/bookshelves/${selectedBookshelf}`,
@@ -104,6 +107,9 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
           method: "POST",
           credentials: "include",
           body: JSON.stringify(requestBody),
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
       );
 
