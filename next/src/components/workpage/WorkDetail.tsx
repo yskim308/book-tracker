@@ -12,10 +12,16 @@ interface WorkDetailProps {
   work: Work;
 }
 
+export interface BookData {
+  externalId: string;
+  title: string;
+  authors: string[];
+}
 export default function WorkDetail({ work }: WorkDetailProps) {
   const [componentAuthors, setComponentAuthors] = useState<Author[] | null>(
     null,
   );
+  const [bookData, setBookData] = useState<BookData | null>(null);
 
   const apiEndpoint = process.env.NEXT_PUBLIC_BOOK_SEARCH_BASE;
 
@@ -32,6 +38,11 @@ export default function WorkDetail({ work }: WorkDetailProps) {
 
         const fetchedData: Author[] = await Promise.all(promises);
         setComponentAuthors(fetchedData);
+        setBookData({
+          externalId: work.key.replace("works/", ""),
+          title: work.title,
+          authors: fetchedData.map((author) => author.name),
+        });
       } catch (e) {
         console.log(e);
       }
@@ -48,7 +59,7 @@ export default function WorkDetail({ work }: WorkDetailProps) {
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
                 {work.title}
-                <AddBookButton />
+                {bookData && <AddBookButton bookData={bookData} />}
               </h1>
               <div className="mt-1">
                 <h2 className="text-lg font-medium text-slate-700">Authors</h2>
