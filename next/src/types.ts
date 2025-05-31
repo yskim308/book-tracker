@@ -8,10 +8,15 @@ export interface User {
 }
 
 export interface UserBook {
-  title: string;
-  link: string;
+  id: number;
+  user: {
+    id: number;
+  };
+  externalId: string;
   completionDate: string;
-  status: "READ" | "READING" | "TO_READ";
+  author: string[];
+  title: string;
+  status: "READ" | "TO_READ" | "READING";
 }
 
 export interface SearchBook {
