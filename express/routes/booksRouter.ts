@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 //
 interface BookCreationBody {
   externalId: string;
-  status: "READ" | "TO_READ" | "READING";
+  status?: "READ" | "TO_READ" | "READING";
   title: string;
   authors: string[];
 }
@@ -56,15 +56,26 @@ router.post(
 
       let bookCreated = false;
       if (!book) {
+        if (!status) {
+          res
+            .status(400)
+            .json({ error: "status is required when creating a book" });
+        }
+        const bookData: any = {
+          userId: userId,
+          externalId: externalId,
+          status: status as "READ" | "READING" | "TO_READ",
+          title: title,
+          author: authors,
+        };
+
+        // if status is read, put in the completion date
+        if (status === "READ") {
+          bookData.completionDate = new Date();
+        }
         // Create new book with externalId
         book = await prisma.book.create({
-          data: {
-            userId: userId,
-            externalId: externalId,
-            status: status as "READ" | "READING" | "TO_READ",
-            title: title,
-            author: authors,
-          },
+          data: bookData,
         });
         bookCreated = true;
       }
