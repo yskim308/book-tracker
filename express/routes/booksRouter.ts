@@ -6,6 +6,63 @@ export { router };
 const router = express.Router();
 const prisma = new PrismaClient();
 
+// check if book exists in library
+router.get(
+  "/books/check/:externalId",
+  verifyJwt,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = res.locals.userId;
+      const externalId = req.params.externalId;
+
+      if (!externalId) {
+        res.status(400).json({ error: "External ID is required" });
+        return;
+      }
+
+      const book = await prisma.book.findFirst({
+        where: {
+          externalId: externalId,
+          userId: userId,
+        },
+        include: {
+          bookshelves: {
+            include: {
+              bookshelf: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (book) {
+        res.json({
+          exists: true,
+          book: {
+            id: book.id,
+            externalId: book.externalId,
+            title: book.title,
+            author: book.author,
+            status: book.status,
+            completionDate: book.completionDate,
+            bookshelves: book.bookshelves.map((bb) => bb.bookshelf.name),
+          },
+        });
+      } else {
+        res.json({
+          exists: false,
+        });
+      }
+    } catch (error) {
+      console.error("Error checking book existence:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+);
+
 // Add book to bookshelf
 //
 interface BookCreationBody {
