@@ -116,6 +116,36 @@ export default function Page() {
     }
   };
 
+  const handleDeleteBook = async (externalId: string) => {
+    try {
+      const response = await fetch(
+        `${backendBase}/bookshelves/${bookshelfName}/books/${externalId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.error || "Failed to delete book from bookshelf",
+        );
+      }
+
+      // Remove the book from the local state
+      setBooks(
+        (prevBooks) =>
+          prevBooks?.filter((book) => book.externalId !== externalId) || null,
+      );
+    } catch (err) {
+      console.error("Error deleting book:", err);
+      // You could add a toast notification here
+    }
+  };
+
   if (error) {
     return (
       <div className="container mx-auto py-8">
@@ -163,6 +193,7 @@ export default function Page() {
                     <TableHead className="w-1/4">Author(s)</TableHead>
                     <TableHead className="w-1/6">Status</TableHead>
                     <TableHead className="w-1/4">Completion Date</TableHead>
+                    <TableHead className="w-16">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -171,6 +202,7 @@ export default function Page() {
                       key={book.id}
                       book={book}
                       onStatusChange={handleStatusChange}
+                      onDelete={handleDeleteBook}
                     />
                   ))}
                 </TableBody>
