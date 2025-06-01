@@ -31,15 +31,17 @@ interface GetBooksRes {
   books: UserBook[];
 }
 
+interface BookShelf {
+  name: string;
+  description: string;
+}
+
 export default function Page() {
   const params = useParams();
   const router = useRouter();
-  const bookshelfName = params.slug as string;
+  const bookshelfName = params.name as string;
   const [books, setBooks] = useState<UserBook[] | null>(null);
-  const [bookshelf, setBookshelf] = useState<{
-    name: string;
-    description: string;
-  } | null>(null);
+  const [bookshelf, setBookshelf] = useState<BookShelf | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
@@ -47,9 +49,13 @@ export default function Page() {
   useEffect(() => {
     const getBooks = async () => {
       try {
+        console.log("getting books");
         setLoading(true);
         const response = await fetch(
           `${backendBase}/bookshelves/${bookshelfName}`,
+          {
+            credentials: "include",
+          },
         );
 
         if (!response.ok) {
@@ -63,9 +69,6 @@ export default function Page() {
         setError(null);
       } catch (err) {
         console.error("Error fetching bookshelf:", err);
-        setError(
-          err instanceof Error ? err.message : "An unknown error occurred",
-        );
       } finally {
         setLoading(false);
       }
@@ -185,7 +188,7 @@ export default function Page() {
                       <TableCell
                         onClick={() => navigateToBook(book.externalId)}
                       >
-                        {book.authors.join(", ")}
+                        {book.author.join(", ")}
                       </TableCell>
                       <TableCell onClick={(e) => e.stopPropagation()}>
                         <Select
