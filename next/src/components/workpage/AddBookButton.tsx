@@ -162,9 +162,6 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
                 <p className="text-xs text-blue-700 font-medium">
                   Book already exists
                 </p>
-                <p className="text-xs text-blue-600">
-                  Status: existingBook.status
-                </p>
                 {existingBook.bookshelves.length > 0 && (
                   <p className="text-xs text-blue-600">
                     In: {existingBook.bookshelves.join(", ")}
