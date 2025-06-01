@@ -4,6 +4,7 @@ import Profile from "@/components/profile/Profile";
 import { UserProvider } from "@/context/UserContext";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/SideBar/Sidebar";
+import { Toaster } from "sonner";
 
 export default function Layout({
   children,
@@ -27,6 +28,7 @@ export default function Layout({
 
           {/* Main content */}
           <div className="px-4">{children}</div>
+          <Toaster />
         </main>
       </SidebarProvider>
     </UserProvider>
