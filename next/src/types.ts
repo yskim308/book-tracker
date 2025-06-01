@@ -9,9 +9,6 @@ export interface User {
 
 export interface UserBook {
   id: number;
-  user: {
-    id: number;
-  };
   externalId: string;
   completionDate: string;
   author: string[];
