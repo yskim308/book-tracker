@@ -79,9 +79,11 @@ export default function Page() {
     try {
       const response = await fetch(`${backendBase}/books/status`, {
         method: "PATCH",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify({
           externalId,
           status: newStatus,
