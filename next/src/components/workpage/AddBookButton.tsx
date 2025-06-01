@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { BookData } from "./WorkDetail";
+import { toast } from "sonner";
 
 interface ExistingBook {
   id: string;
@@ -82,12 +83,12 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
 
   const handleSubmit = async () => {
     if (!selectedBookshelf) {
-      alert("Please select a bookshelf");
+      toast.error("Please select a bookshelf");
       return;
     }
 
     if (!existingBook && !selectedStatus) {
-      alert("Please select a status");
+      toast.error("Please select a status");
       return;
     }
 
@@ -128,16 +129,16 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
         setSelectedStatus("TO_READ");
 
         // Show success message
-        alert(result.message);
+        toast.success(result.message);
       } else if (response.status === 409) {
-        alert("Book is already in this bookshelf");
+        toast.error("Book is already in this bookshelf");
       } else {
         const error = await response.json();
-        alert(`Error: ${error.error}`);
+        toast.error(`Error: ${error.error}`);
       }
     } catch (error) {
       console.error("Error adding book:", error);
-      alert("Failed to add book. Please try again.");
+      toast.error("Failed to add book. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
