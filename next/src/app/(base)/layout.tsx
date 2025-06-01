@@ -28,7 +28,7 @@ export default function Layout({
 
           {/* Main content */}
           <div className="px-4">{children}</div>
-          <Toaster />
+          <Toaster position="top-center" />
         </main>
       </SidebarProvider>
     </UserProvider>
