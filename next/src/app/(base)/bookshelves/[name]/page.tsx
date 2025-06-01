@@ -4,22 +4,14 @@ import { useParams, useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { format } from "date-fns";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { BookshelfBookRow } from "@/components/bookshelf/BookshelfBookRow";
 import type { UserBook } from "@/types";
 
 interface GetBooksRes {
@@ -38,7 +30,6 @@ interface BookShelf {
 
 export default function Page() {
   const params = useParams();
-  const router = useRouter();
   const bookshelfName = params.name as string;
   const [books, setBooks] = useState<UserBook[] | null>(null);
   const [bookshelf, setBookshelf] = useState<BookShelf | null>(null);
@@ -49,7 +40,6 @@ export default function Page() {
   useEffect(() => {
     const getBooks = async () => {
       try {
-        console.log("getting books");
         setLoading(true);
         const response = await fetch(
           `${backendBase}/bookshelves/${bookshelfName}`,
@@ -69,6 +59,9 @@ export default function Page() {
         setError(null);
       } catch (err) {
         console.error("Error fetching bookshelf:", err);
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred",
+        );
       } finally {
         setLoading(false);
       }
@@ -119,10 +112,6 @@ export default function Page() {
       console.error("Error updating book status:", err);
       // You could add a toast notification here
     }
-  };
-
-  const navigateToBook = (externalId: string) => {
-    router.push(`/works/${externalId}`);
   };
 
   if (error) {
@@ -176,48 +165,11 @@ export default function Page() {
                 </TableHeader>
                 <TableBody>
                   {books.map((book) => (
-                    <TableRow
+                    <BookshelfBookRow
                       key={book.id}
-                      className="cursor-pointer hover:bg-muted/50"
-                    >
-                      <TableCell
-                        onClick={() => navigateToBook(book.externalId)}
-                      >
-                        <div className="font-medium">{book.title}</div>
-                      </TableCell>
-                      <TableCell
-                        onClick={() => navigateToBook(book.externalId)}
-                      >
-                        {book.author.join(", ")}
-                      </TableCell>
-                      <TableCell onClick={(e) => e.stopPropagation()}>
-                        <Select
-                          value={book.status}
-                          onValueChange={(value) =>
-                            handleStatusChange(
-                              book.externalId,
-                              value as "READ" | "TO_READ" | "READING",
-                            )
-                          }
-                        >
-                          <SelectTrigger className="w-[130px]">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="TO_READ">To Read</SelectItem>
-                            <SelectItem value="READING">Reading</SelectItem>
-                            <SelectItem value="READ">Read</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </TableCell>
-                      <TableCell
-                        onClick={() => navigateToBook(book.externalId)}
-                      >
-                        {book.completionDate
-                          ? format(new Date(book.completionDate), "MMM d, yyyy")
-                          : "-"}
-                      </TableCell>
-                    </TableRow>
+                      book={book}
+                      onStatusChange={handleStatusChange}
+                    />
                   ))}
                 </TableBody>
               </Table>
