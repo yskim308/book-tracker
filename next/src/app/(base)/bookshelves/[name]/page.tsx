@@ -119,12 +119,16 @@ export default function Page() {
   const handleDeleteBook = async (externalId: string) => {
     try {
       const response = await fetch(
-        `${backendBase}/bookshelves/${bookshelfName}/books/${externalId}`,
+        `${backendBase}/bookshelves/${bookshelfName}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
+          body: JSON.stringify({
+            externalId: externalId,
+          }),
         },
       );
 
