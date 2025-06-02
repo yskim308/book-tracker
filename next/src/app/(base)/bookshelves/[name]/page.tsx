@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { BookshelfBookRow } from "@/components/bookshelf/BookshelfBookRow";
+import { toast } from "sonner";
 import type { UserBook } from "@/types";
 
 interface GetBooksRes {
@@ -110,9 +111,10 @@ export default function Page() {
               : book,
           ) || null,
       );
+      toast.success("book status updated");
     } catch (err) {
       console.error("Error updating book status:", err);
-      // You could add a toast notification here
+      toast.error("Error updating book status");
     }
   };
 
@@ -144,9 +146,10 @@ export default function Page() {
         (prevBooks) =>
           prevBooks?.filter((book) => book.externalId !== externalId) || null,
       );
+      toast.success("book removed from bookshelf");
     } catch (err) {
       console.error("Error deleting book:", err);
-      // You could add a toast notification here
+      toast.error("error deleting book");
     }
   };
 
