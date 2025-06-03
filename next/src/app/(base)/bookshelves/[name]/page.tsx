@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { BookshelfBookRow } from "@/components/bookshelf/BookshelfBookRow";
+import { BookshelfCard } from "@/components/SideBar/bookshelfCard";
 import { toast } from "sonner";
 import type { UserBook } from "@/types";
 
@@ -173,13 +174,29 @@ export default function Page() {
             <Skeleton className="h-10 w-1/3" />
             <Skeleton className="h-4 w-2/3" />
           </div>
-          <div className="border rounded-md">
+
+          {/* Desktop Loading Skeleton */}
+          <div className="hidden md:block border rounded-md">
             <div className="p-4">
               <Skeleton className="h-8 w-full mb-4" />
               {[1, 2, 3, 4, 5].map((i) => (
                 <Skeleton key={i} className="h-12 w-full mb-2" />
               ))}
             </div>
+          </div>
+
+          {/* Mobile Loading Skeleton */}
+          <div className="md:hidden space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="border rounded-lg p-4">
+                <Skeleton className="h-6 w-3/4 mb-2" />
+                <Skeleton className="h-4 w-1/2 mb-4" />
+                <div className="flex justify-between items-center">
+                  <Skeleton className="h-8 w-24" />
+                  <Skeleton className="h-8 w-8" />
+                </div>
+              </div>
+            ))}
           </div>
         </>
       ) : (
@@ -192,29 +209,44 @@ export default function Page() {
           </div>
 
           {books && books.length > 0 ? (
-            <div className="border rounded-md">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-1/3">Title</TableHead>
-                    <TableHead className="w-1/4">Author(s)</TableHead>
-                    <TableHead className="w-1/6">Status</TableHead>
-                    <TableHead className="w-1/4">Completion Date</TableHead>
-                    <TableHead className="w-16">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {books.map((book) => (
-                    <BookshelfBookRow
-                      key={book.id}
-                      book={book}
-                      onStatusChange={handleStatusChange}
-                      onDelete={handleDeleteBook}
-                    />
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden md:block border rounded-md">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-1/3">Title</TableHead>
+                      <TableHead className="w-1/4">Author(s)</TableHead>
+                      <TableHead className="w-1/6">Status</TableHead>
+                      <TableHead className="w-1/4">Completion Date</TableHead>
+                      <TableHead className="w-16">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {books.map((book) => (
+                      <BookshelfBookRow
+                        key={book.id}
+                        book={book}
+                        onStatusChange={handleStatusChange}
+                        onDelete={handleDeleteBook}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="md:hidden space-y-4">
+                {books.map((book) => (
+                  <BookshelfCard
+                    key={book.id}
+                    book={book}
+                    onStatusChange={handleStatusChange}
+                    onDelete={handleDeleteBook}
+                  />
+                ))}
+              </div>
+            </>
           ) : (
             <div className="text-center py-12">
               <p className="text-muted-foreground">

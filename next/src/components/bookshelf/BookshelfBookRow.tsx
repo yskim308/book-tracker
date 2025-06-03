@@ -69,18 +69,11 @@ export function BookshelfBookRow({
       await onDelete(book.externalId);
     } finally {
       setShowDeleteDialog(false);
-      // Force focus back to document body to ensure page is interactive
       setTimeout(() => {
         document.body.focus();
       }, 100);
     }
   }, [book.externalId, onDelete]);
-
-  const handleAddToOtherShelf = () => {
-    setIsDropdownOpen(false);
-    // TODO: Implement add to other shelf functionality
-    console.log("Add to other shelf:", book.title);
-  };
 
   const handleDeleteClick = () => {
     setIsDropdownOpen(false);
@@ -90,7 +83,6 @@ export function BookshelfBookRow({
   const handleDialogClose = useCallback((open: boolean) => {
     setShowDeleteDialog(open);
     if (!open) {
-      // Ensure page is interactive after dialog closes
       setTimeout(() => {
         document.body.focus();
         document.body.style.pointerEvents = "auto";
@@ -114,7 +106,7 @@ export function BookshelfBookRow({
     <>
       <TableRow className="cursor-pointer hover:bg-muted/50">
         <TableCell
-          className="w-80 max-w-80"
+          className="w-1/3 max-w-0"
           onClick={expandedTitle ? handleTitleClick : navigateToBook}
         >
           <div
@@ -125,8 +117,9 @@ export function BookshelfBookRow({
             {book.title}
           </div>
         </TableCell>
+
         <TableCell
-          className="w-60 max-w-60"
+          className="w-1/4 max-w-0"
           onClick={expandedAuthor ? handleAuthorClick : navigateToBook}
         >
           <div
@@ -137,7 +130,8 @@ export function BookshelfBookRow({
             {authorText}
           </div>
         </TableCell>
-        <TableCell className="w-36" onClick={(e) => e.stopPropagation()}>
+
+        <TableCell className="w-1/6" onClick={(e) => e.stopPropagation()}>
           <Select value={book.status} onValueChange={handleStatusChange}>
             <SelectTrigger className="w-[130px]">
               <SelectValue />
@@ -149,11 +143,13 @@ export function BookshelfBookRow({
             </SelectContent>
           </Select>
         </TableCell>
-        <TableCell className="w-32" onClick={navigateToBook}>
+
+        <TableCell className="w-1/4" onClick={navigateToBook}>
           {book.completionDate
             ? format(new Date(book.completionDate), "MMM d, yyyy")
             : "-"}
         </TableCell>
+
         <TableCell className="w-16" onClick={(e) => e.stopPropagation()}>
           <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
             <DropdownMenuTrigger asChild>
