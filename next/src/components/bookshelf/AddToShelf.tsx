@@ -1,21 +1,17 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { useUserState } from "@/context/UserContext";
 import type { UserBook } from "@/types";
-import { Plus, Loader2 } from "lucide-react";
+import { Plus, Loader2, Check } from "lucide-react";
 
 interface AddToShelfProps {
   book: UserBook;
@@ -35,19 +31,14 @@ export default function AddToShelf({ book }: AddToShelfProps) {
   const { bookshelves, refetchBookshelves } = useUserState();
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [existingBook, setExistingBook] = useState<ExistingBook | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedBookshelf, setSelectedBookshelf] = useState<string>("");
-
-  useEffect(() => {
-    if (isOpen && book.externalId) {
-      checkBookExists();
-    }
-  }, [isOpen, book.externalId]);
+  const [hasChecked, setHasChecked] = useState(false);
 
   const checkBookExists = async () => {
+    if (hasChecked || isLoading) return;
+
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -71,15 +62,11 @@ export default function AddToShelf({ book }: AddToShelfProps) {
       console.error("Error checking book existence:", error);
     } finally {
       setIsLoading(false);
+      setHasChecked(true);
     }
   };
 
-  const handleSubmit = async () => {
-    if (!selectedBookshelf) {
-      toast.error("Please select a bookshelf");
-      return;
-    }
-
+  const handleAddToBookshelf = async (bookshelfName: string) => {
     setIsSubmitting(true);
     try {
       const requestBody = {
@@ -92,7 +79,7 @@ export default function AddToShelf({ book }: AddToShelfProps) {
       console.log(JSON.stringify(requestBody));
 
       const response = await fetch(
-        `${backendBase}/bookshelves/${selectedBookshelf}`,
+        `${backendBase}/bookshelves/${bookshelfName}`,
         {
           method: "POST",
           credentials: "include",
@@ -109,10 +96,6 @@ export default function AddToShelf({ book }: AddToShelfProps) {
 
         // Refresh bookshelves data
         refetchBookshelves();
-
-        // Close popover and reset form
-        setIsOpen(false);
-        setSelectedBookshelf("");
 
         // Show success message
         toast.success(result.message);
@@ -131,91 +114,67 @@ export default function AddToShelf({ book }: AddToShelfProps) {
   };
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
-        <div className="flex items-center">
-          <Plus className="h-4 w-4 mr-2" />
-          <h1>Add to Other</h1>
-        </div>
-      </PopoverTrigger>
-      <PopoverContent className="w-48 p-2">
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger
+        onMouseEnter={checkBookExists}
+        onClick={checkBookExists}
+        className="[&>svg:last-child]:hidden"
+      >
+        <Plus className="h-4 w-4 mr-2" />
+        Add to Other
+      </DropdownMenuSubTrigger>
+      <DropdownMenuSubContent className="w-32 md:w-56">
         {isLoading ? (
-          <div className="flex items-center justify-center py-4">
+          <DropdownMenuItem disabled>
             <Loader2 className="h-4 w-4 animate-spin mr-2" />
             <span className="text-sm">Checking book...</span>
-          </div>
+          </DropdownMenuItem>
         ) : (
           <>
             {existingBook && (
-              <div className="mb-3 p-2 bg-blue-50 rounded border">
-                <p className="text-xs text-blue-700 font-medium">
+              <>
+                <div className="px-2 py-1.5 text-xs text-blue-700 font-medium bg-blue-50 mx-1 rounded border">
                   Book already exists
-                </p>
-                {existingBook.bookshelves.length > 0 && (
-                  <p className="text-xs text-blue-600">
-                    In: {existingBook.bookshelves.join(", ")}
-                  </p>
-                )}
-              </div>
+                  {existingBook.bookshelves.length > 0 && (
+                    <div className="text-xs text-blue-600">
+                      In: {existingBook.bookshelves.join(", ")}
+                    </div>
+                  )}
+                </div>
+                <DropdownMenuSeparator />
+              </>
             )}
 
-            <p className="text-sm font-medium mb-2">Add to Bookshelf</p>
-            <Select
-              value={selectedBookshelf}
-              onValueChange={setSelectedBookshelf}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a bookshelf" />
-              </SelectTrigger>
-              <SelectContent>
-                {bookshelves.length > 0 ? (
-                  bookshelves.map((shelf) => (
-                    <SelectItem
-                      key={shelf.name}
-                      value={shelf.name}
-                      disabled={existingBook?.bookshelves.includes(shelf.name)}
-                    >
-                      <span
-                        className={
-                          existingBook?.bookshelves.includes(shelf.name)
-                            ? "text-gray-400"
-                            : ""
-                        }
-                      >
-                        {shelf.name}
-                        {existingBook?.bookshelves.includes(shelf.name) &&
-                          " (already added)"}
-                      </span>
-                    </SelectItem>
-                  ))
-                ) : (
-                  <p className="p-2 text-sm text-gray-500">
-                    No bookshelves available.
-                  </p>
-                )}
-              </SelectContent>
-            </Select>
-
-            <Button
-              variant="outline"
-              className="my-2 w-full"
-              onClick={handleSubmit}
-              disabled={
-                isSubmitting || !selectedBookshelf || bookshelves.length === 0
-              }
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  Adding...
-                </>
-              ) : (
-                "Add Book"
-              )}
-            </Button>
+            {bookshelves.length > 0 ? (
+              bookshelves.map((shelf) => {
+                const isAlreadyInShelf = existingBook?.bookshelves.includes(
+                  shelf.name,
+                );
+                return (
+                  <DropdownMenuItem
+                    key={shelf.name}
+                    onClick={() => handleAddToBookshelf(shelf.name)}
+                    disabled={isAlreadyInShelf || isSubmitting}
+                  >
+                    {isAlreadyInShelf && <Check className="mr-2 h-4 w-4" />}
+                    {!isAlreadyInShelf && <div className="mr-6" />}
+                    <span className={isAlreadyInShelf ? "text-gray-400" : ""}>
+                      {shelf.name}
+                      {isAlreadyInShelf && " (already added)"}
+                    </span>
+                  </DropdownMenuItem>
+                );
+              })
+            ) : (
+              <DropdownMenuItem disabled>
+                <span className="text-sm text-gray-500">
+                  No bookshelves available.
+                </span>
+              </DropdownMenuItem>
+            )}
           </>
         )}
-      </PopoverContent>
-    </Popover>
+      </DropdownMenuSubContent>
+    </DropdownMenuSub>
   );
 }

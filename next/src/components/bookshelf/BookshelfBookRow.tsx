@@ -159,13 +159,7 @@ export function BookshelfBookRow({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onSelect={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <AddToShelf book={book} />
-              </DropdownMenuItem>
+              <AddToShelf book={book} />
               <DropdownMenuItem
                 className="text-destructive"
                 onClick={handleDeleteClick}
