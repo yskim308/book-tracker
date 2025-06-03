@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useUserState } from "@/context/UserContext";
 import {
   Table,
   TableBody,
@@ -38,6 +39,8 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
+
+  const { refetchBookshelves } = useUserState();
 
   useEffect(() => {
     const getBooks = async () => {
@@ -147,6 +150,7 @@ export default function Page() {
         (prevBooks) =>
           prevBooks?.filter((book) => book.externalId !== externalId) || null,
       );
+      refetchBookshelves();
       toast.success("book removed from bookshelf");
     } catch (err) {
       console.error("Error deleting book:", err);
