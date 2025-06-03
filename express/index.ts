@@ -5,7 +5,8 @@ import cookieParser from "cookie-parser";
 import { router as GoogleAuthRouter } from "./routes/googleAuthRouter";
 import { router as HomeRouter } from "./routes/homeRouter";
 import { router as BookRouter } from "./routes/booksRouter";
-import { router as ShelfRouter } from "./routes/shelfRouter.ts";
+import { router as ShelfRouter } from "./routes/shelfRouter";
+import { router as ShelfBookRouter } from "./routes/shelfBookRouter";
 
 const port = 4000;
 
@@ -25,6 +26,7 @@ app.use("/auth/google", GoogleAuthRouter);
 app.use("/", HomeRouter);
 app.use("/", BookRouter);
 app.use("/", ShelfRouter);
+app.use("/", ShelfBookRouter);
 
 app.listen(port, () => {
   console.log("listening on port: " + port);
