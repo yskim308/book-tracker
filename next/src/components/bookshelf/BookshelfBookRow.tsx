@@ -1,5 +1,7 @@
 "use client";
 import { TableCell, TableRow } from "@/components/ui/table";
+import type React from "react";
+
 import {
   Select,
   SelectContent,
@@ -27,8 +29,9 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Trash2, Plus } from "lucide-react";
+import { MoreHorizontal, Trash2 } from "lucide-react";
 import { useState, useCallback } from "react";
+import AddToShelf from "./AddToShelf";
 
 interface BookshelfBookRowProps {
   book: UserBook;
@@ -47,6 +50,8 @@ export function BookshelfBookRow({
   const router = useRouter();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [expandedTitle, setExpandedTitle] = useState(false);
+  const [expandedAuthor, setExpandedAuthor] = useState(false);
 
   const navigateToBook = () => {
     router.push(`/works/${book.externalId}`);
@@ -93,14 +98,46 @@ export function BookshelfBookRow({
     }
   }, []);
 
+  const handleTitleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedTitle(!expandedTitle);
+  };
+
+  const handleAuthorClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedAuthor(!expandedAuthor);
+  };
+
+  const authorText = book.author.join(", ");
+
   return (
     <>
       <TableRow className="cursor-pointer hover:bg-muted/50">
-        <TableCell onClick={navigateToBook}>
-          <div className="font-medium">{book.title}</div>
+        <TableCell
+          className="w-80 max-w-80"
+          onClick={expandedTitle ? handleTitleClick : navigateToBook}
+        >
+          <div
+            className={`font-medium cursor-pointer ${expandedTitle ? "whitespace-normal break-words" : "truncate"}`}
+            onClick={handleTitleClick}
+            title={book.title}
+          >
+            {book.title}
+          </div>
         </TableCell>
-        <TableCell onClick={navigateToBook}>{book.author.join(", ")}</TableCell>
-        <TableCell onClick={(e) => e.stopPropagation()}>
+        <TableCell
+          className="w-60 max-w-60"
+          onClick={expandedAuthor ? handleAuthorClick : navigateToBook}
+        >
+          <div
+            className={`cursor-pointer ${expandedAuthor ? "whitespace-normal break-words" : "truncate"}`}
+            onClick={handleAuthorClick}
+            title={authorText}
+          >
+            {authorText}
+          </div>
+        </TableCell>
+        <TableCell className="w-36" onClick={(e) => e.stopPropagation()}>
           <Select value={book.status} onValueChange={handleStatusChange}>
             <SelectTrigger className="w-[130px]">
               <SelectValue />
@@ -112,12 +149,12 @@ export function BookshelfBookRow({
             </SelectContent>
           </Select>
         </TableCell>
-        <TableCell onClick={navigateToBook}>
+        <TableCell className="w-32" onClick={navigateToBook}>
           {book.completionDate
             ? format(new Date(book.completionDate), "MMM d, yyyy")
             : "-"}
         </TableCell>
-        <TableCell onClick={(e) => e.stopPropagation()}>
+        <TableCell className="w-16" onClick={(e) => e.stopPropagation()}>
           <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -126,9 +163,12 @@ export function BookshelfBookRow({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={handleAddToOtherShelf}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add to other shelf
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                <AddToShelf book={book} />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="text-destructive"
