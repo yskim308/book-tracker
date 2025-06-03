@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { BookshelfBookRow } from "@/components/bookshelf/BookshelfBookRow";
-import { BookshelfCard } from "@/components/SideBar/bookshelfCard";
+import { BookshelfBookCard } from "@/components/bookshelf/BookShelfCard";
 import { toast } from "sonner";
 import type { UserBook } from "@/types";
 
@@ -238,7 +238,7 @@ export default function Page() {
               {/* Mobile Card View */}
               <div className="md:hidden space-y-4">
                 {books.map((book) => (
-                  <BookshelfCard
+                  <BookshelfBookCard
                     key={book.id}
                     book={book}
                     onStatusChange={handleStatusChange}
