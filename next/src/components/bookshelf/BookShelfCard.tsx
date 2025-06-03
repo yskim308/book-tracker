@@ -134,13 +134,13 @@ export function BookshelfBookCard({
         className="cursor-pointer hover:shadow-md transition-shadow"
         onClick={navigateToBook}
       >
-        <CardContent className="p-4">
+        <CardContent className="px-4">
           <div className="space-y-3">
             {/* Title and Author Section */}
-            <div className="space-y-2" onClick={(e) => e.stopPropagation()}>
+            <div className="space-y-1" onClick={(e) => e.stopPropagation()}>
               {/* Title */}
               <div
-                className={`font-semibold text-lg leading-tight cursor-pointer ${
+                className={`font-semibold text-lg leading-tight cursor-pointer flex items-center ${
                   expandedTitle
                     ? "whitespace-normal break-words"
                     : "line-clamp-2"
@@ -149,6 +149,34 @@ export function BookshelfBookCard({
                 title={book.title}
               >
                 {book.title}
+                {/* Actions Dropdown */}
+                <DropdownMenu
+                  open={isDropdownOpen}
+                  onOpenChange={setIsDropdownOpen}
+                >
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0 shrink-0">
+                      <span className="sr-only">Open menu</span>
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onSelect={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <AddToShelf book={book} />
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="text-destructive"
+                      onClick={handleDeleteClick}
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
 
               {/* Author */}
@@ -194,35 +222,6 @@ export function BookshelfBookCard({
                   </div>
                 )}
               </div>
-
-              {/* Actions Dropdown */}
-              <DropdownMenu
-                open={isDropdownOpen}
-                onOpenChange={setIsDropdownOpen}
-              >
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-8 w-8 p-0 shrink-0">
-                    <span className="sr-only">Open menu</span>
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem
-                    onSelect={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <AddToShelf book={book} />
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="text-destructive"
-                    onClick={handleDeleteClick}
-                  >
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </div>
         </CardContent>
