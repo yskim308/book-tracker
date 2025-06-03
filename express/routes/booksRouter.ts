@@ -64,48 +64,6 @@ router.get(
   },
 );
 
-// get all bookshelves
-router.get(
-  "/bookshelves",
-  verifyJwt,
-  async (req: express.Request, res: express.Response) => {
-    try {
-      const userId = res.locals.userId;
-
-      const bookshelves = await prisma.bookshelf.findMany({
-        where: {
-          userId: userId,
-        },
-        select: {
-          name: true,
-          _count: {
-            select: {
-              books: true,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: "asc",
-        },
-      });
-
-      const bookshelvesWithCount = bookshelves.map((shelf) => {
-        return {
-          name: shelf.name,
-          count: shelf._count.books,
-        };
-      });
-
-      res.json({
-        bookshelves: bookshelvesWithCount,
-      });
-    } catch (e) {
-      console.error(e);
-      res.status(500).json({ error: "internal server error" });
-    }
-  },
-);
-
 // update the status of a book
 interface BookStatusUpdateBody {
   externalId: string;
