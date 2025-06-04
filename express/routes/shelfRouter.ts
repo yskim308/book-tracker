@@ -47,3 +47,33 @@ router.get(
     }
   },
 );
+
+interface CreateBookShelfBody {
+  bookshelfName: string;
+  description: string;
+}
+
+router.get(
+  "/bookshelves/create",
+  verifyJwt,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = res.locals.userId;
+
+      const { bookshelfName, description }: CreateBookShelfBody = req.body;
+
+      await prisma.bookshelf.create({
+        data: {
+          userId: Number(userId),
+          name: bookshelfName,
+          description: description,
+        },
+      });
+      res.json({
+        message: "bookshelf created for user",
+      });
+    } catch (e) {
+      res.status(500).json({ error: e });
+    }
+  },
+);
