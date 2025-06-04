@@ -15,6 +15,7 @@ import { BookshelfCard } from "./bookshelfCard";
 import { useUserState } from "@/context/UserContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Library } from "lucide-react";
+import CreateBookshelfButton from "./CreateBookshelfButton";
 
 export function AppSidebar() {
   const { bookshelves, shelfLoading, user, loading } = useUserState();
@@ -78,6 +79,9 @@ export function AppSidebar() {
               )}
             </div>
           </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <CreateBookshelfButton />
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
