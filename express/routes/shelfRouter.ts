@@ -53,7 +53,7 @@ interface CreateBookShelfBody {
   description: string;
 }
 
-router.get(
+router.post(
   "/bookshelves/create",
   verifyJwt,
   async (req: express.Request, res: express.Response) => {
