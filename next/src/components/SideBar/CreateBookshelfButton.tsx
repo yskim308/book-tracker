@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useUserState } from "@/context/UserContext";
 
 const handleCreateBookshelf = async (
   bookshelfName: string,
@@ -49,6 +50,7 @@ export default function CreateBookshelfButton() {
   const [bookshelfName, setBookshelfName] = useState("");
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { refetchBookshelves } = useUserState();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,14 +65,13 @@ export default function CreateBookshelfButton() {
     try {
       await handleCreateBookshelf(bookshelfName, description);
 
-      toast.message("bookshelf created", {
-        description: "Bookshelf created successfully!",
-      });
+      toast.success("bookshelf created");
 
       // Reset form and close modal
       setBookshelfName("");
       setDescription("");
       setOpen(false);
+      refetchBookshelves();
     } catch (error) {
       toast.error("error in creating bookshelf");
       setIsLoading(false);
@@ -101,6 +102,7 @@ export default function CreateBookshelfButton() {
                 placeholder="Enter bookshelf name"
                 disabled={isLoading}
                 required
+                autoComplete="off"
               />
             </div>
             <div className="grid gap-2">
@@ -124,7 +126,11 @@ export default function CreateBookshelfButton() {
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              onClick={() => setOpen(false)}
+            >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Create Bookshelf
             </Button>
