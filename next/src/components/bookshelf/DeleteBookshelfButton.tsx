@@ -17,7 +17,7 @@ import {
 
 interface DeleteBookshelfButtonProps {
   bookshelfName: string;
-  onDelete: () => void;
+  onDelete: (name: string) => void;
 }
 
 export function DeleteBookshelfButton({
@@ -27,7 +27,7 @@ export function DeleteBookshelfButton({
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = () => {
-    onDelete();
+    onDelete(bookshelfName);
     setIsOpen(false);
   };
 

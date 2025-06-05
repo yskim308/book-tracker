@@ -15,6 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { BookshelfBookRow } from "@/components/bookshelf/BookshelfBookRow";
 import { BookshelfBookCard } from "@/components/bookshelf/BookShelfCard";
 import { toast } from "sonner";
+import { DeleteBookshelfButton } from "@/components/bookshelf/DeleteBookshelfButton";
 import type { UserBook } from "@/types";
 
 interface GetBooksRes {
@@ -42,6 +43,7 @@ export default function Page() {
 
   const { refetchBookshelves } = useUserState();
 
+  const router = useRouter();
   useEffect(() => {
     const getBooks = async () => {
       try {
@@ -158,6 +160,28 @@ export default function Page() {
     }
   };
 
+  const handleDeleteShelf = async (bookshelfName: string) => {
+    try {
+      await fetch(`${backendBase}/bookshelves/delete`, {
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          bookshelfName: bookshelfName,
+        }),
+        method: "DELETE",
+      });
+      return;
+    } catch (e) {
+      toast.error("error in deleting bookshelf");
+      throw new Error("error: " + e);
+    } finally {
+      router.push("/");
+      refetchBookshelves();
+    }
+  };
+
   if (error) {
     return (
       <div className="container mx-auto py-8">
@@ -206,12 +230,23 @@ export default function Page() {
       ) : (
         <>
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">{bookshelf?.name}</h1>
-            {bookshelf?.description && (
-              <p className="text-muted-foreground">{bookshelf.description}</p>
-            )}
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex-1">
+                <h1 className="text-3xl font-bold mb-2">{bookshelf?.name}</h1>
+                {bookshelf?.description && (
+                  <p className="text-muted-foreground">
+                    {bookshelf.description}
+                  </p>
+                )}
+              </div>
+              <div className="ml-4">
+                <DeleteBookshelfButton
+                  bookshelfName={bookshelf?.name || ""}
+                  onDelete={handleDeleteShelf}
+                />
+              </div>
+            </div>
           </div>
-
           {books && books.length > 0 ? (
             <>
               {/* Desktop Table View */}
