@@ -17,6 +17,7 @@ import { BookshelfBookCard } from "@/components/bookshelf/BookShelfCard";
 import { toast } from "sonner";
 import { DeleteBookshelfButton } from "@/components/bookshelf/DeleteBookshelfButton";
 import type { UserBook } from "@/types";
+import UpdateShelfButton from "@/components/bookshelf/UpdateShelfButton";
 
 interface GetBooksRes {
   bookshelf: {
@@ -264,6 +265,11 @@ export default function Page() {
                 )}
               </div>
               <div className="ml-4">
+                <UpdateShelfButton
+                  bookshelfName={bookshelf?.name || ""}
+                  description={bookshelf?.description || ""}
+                  onUpdate={handleUpdateShelf}
+                />
                 <DeleteBookshelfButton
                   bookshelfName={bookshelf?.name || ""}
                   onDelete={handleDeleteShelf}
