@@ -18,12 +18,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Edit } from "lucide-react";
 
 interface UpdateShelfButtonProps {
+  oldName: string;
   bookshelfName: string;
   description: string;
-  onUpdate: (name: string, description: string) => void;
+  onUpdate: (oldName: string, name: string, description: string) => void;
 }
 
 export default function UpdateShelfButton({
+  oldName,
   bookshelfName,
   description,
   onUpdate,
@@ -43,7 +45,7 @@ export default function UpdateShelfButton({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onUpdate(updatedName, updatedDescription);
+    onUpdate(oldName, updatedName, updatedDescription);
     setIsOpen(false);
   };
 

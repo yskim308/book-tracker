@@ -183,19 +183,26 @@ export default function Page() {
     }
   };
 
-  const handleUpdateShelf = async (name: string, description: string) => {
+  const handleUpdateShelf = async (
+    oldName: string,
+    name: string,
+    description: string,
+  ) => {
     try {
-      const response = await fetch(`${backendBase}/update/${name}`, {
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${backendBase}/bookshelves/update/${oldName}`,
+        {
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            description: description,
+          }),
+          method: "PUT",
         },
-        body: JSON.stringify({
-          name: name,
-          description: description,
-        }),
-        method: "PUT",
-      });
+      );
       if (response.status === 409) {
         toast.error("Bookshelf with this name already exists");
       }
@@ -203,6 +210,7 @@ export default function Page() {
       toast.error("error in updating bookshelf");
       throw new Error("error: " + e);
     } finally {
+      router.push(`/bookshelves/${name}`);
       refetchBookshelves();
     }
   };
@@ -266,6 +274,7 @@ export default function Page() {
               </div>
               <div className="ml-4">
                 <UpdateShelfButton
+                  oldName={bookshelf?.name || ""}
                   bookshelfName={bookshelf?.name || ""}
                   description={bookshelf?.description || ""}
                   onUpdate={handleUpdateShelf}
