@@ -182,6 +182,30 @@ export default function Page() {
     }
   };
 
+  const handleUpdateShelf = async (name: string, description: string) => {
+    try {
+      const response = await fetch(`${backendBase}/update/${name}`, {
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          description: description,
+        }),
+        method: "PUT",
+      });
+      if (response.status === 409) {
+        toast.error("Bookshelf with this name already exists");
+      }
+    } catch (e) {
+      toast.error("error in updating bookshelf");
+      throw new Error("error: " + e);
+    } finally {
+      refetchBookshelves();
+    }
+  };
+
   if (error) {
     return (
       <div className="container mx-auto py-8">
