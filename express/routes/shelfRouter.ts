@@ -157,3 +157,90 @@ router.delete(
     }
   },
 );
+
+// update a bookshelf
+// update a bookshelf
+interface UpdateShelfBody {
+  name: string;
+  description: string;
+}
+
+router.put(
+  "/bookshelves/update/:bookshelfName",
+  verifyJwt,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = res.locals.userId;
+      const currentBookshelfName = decodeURIComponent(req.params.bookshelfName);
+      const { name, description }: UpdateShelfBody = req.body;
+
+      // Validate bookshelf name from params
+      if (!currentBookshelfName || currentBookshelfName.trim() === "") {
+        res.status(400).json({ error: "Invalid bookshelf name in URL" });
+        return;
+      }
+
+      // Validate request body
+      if (!name || name.trim() === "") {
+        res.status(400).json({ error: "Bookshelf name is required" });
+        return;
+      }
+
+      // First, find the bookshelf to ensure it exists and belongs to the user
+      const bookshelf = await prisma.bookshelf.findFirst({
+        where: {
+          name: currentBookshelfName,
+          userId: Number(userId),
+        },
+      });
+
+      if (!bookshelf) {
+        res.status(404).json({
+          error: "Bookshelf not found or does not belong to user",
+        });
+        return;
+      }
+
+      // Check if another bookshelf with the same name already exists for this user
+      const existingBookshelf = await prisma.bookshelf.findFirst({
+        where: {
+          name: name.trim(),
+          userId: Number(userId),
+          NOT: {
+            name: currentBookshelfName, // Exclude the current bookshelf from the check
+          },
+        },
+      });
+
+      if (existingBookshelf) {
+        res.status(409).json({
+          error: "A bookshelf with this name already exists",
+        });
+        return;
+      }
+
+      // Update the bookshelf
+      const updatedBookshelf = await prisma.bookshelf.update({
+        where: {
+          id: bookshelf.id,
+        },
+        data: {
+          name: name.trim(),
+          description: description?.trim() || null,
+        },
+      });
+
+      res.json({
+        message: "Bookshelf updated successfully",
+        bookshelf: {
+          id: updatedBookshelf.id,
+          name: updatedBookshelf.name,
+          description: updatedBookshelf.description,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+);
