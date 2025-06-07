@@ -49,6 +49,7 @@ router.get(
 );
 
 // create a bookshelf
+// create a bookshelf
 interface CreateBookShelfBody {
   bookshelfName: string;
   description: string;
@@ -60,25 +61,46 @@ router.post(
   async (req: express.Request, res: express.Response) => {
     try {
       const userId = res.locals.userId;
-
       const { bookshelfName, description }: CreateBookShelfBody = req.body;
+
+      // Validate request body
+      if (!bookshelfName || bookshelfName.trim() === "") {
+        res.status(400).json({ error: "Bookshelf name is required" });
+        return;
+      }
+
+      // Check if a bookshelf with this name already exists for this user
+      const existingBookshelf = await prisma.bookshelf.findFirst({
+        where: {
+          name: bookshelfName.trim(),
+          userId: Number(userId),
+        },
+      });
+
+      if (existingBookshelf) {
+        res.status(409).json({
+          error: "A bookshelf with this name already exists",
+        });
+        return;
+      }
 
       await prisma.bookshelf.create({
         data: {
           userId: Number(userId),
-          name: bookshelfName,
-          description: description,
+          name: bookshelfName.trim(),
+          description: description?.trim() || null,
         },
       });
+
       res.json({
         message: "bookshelf created for user",
       });
     } catch (e) {
-      res.status(500).json({ error: e });
+      console.error(e);
+      res.status(500).json({ error: "Internal server error" });
     }
   },
 );
-
 // delete a bookshelf
 interface DeleteShelfBody {
   bookshelfName: string;
