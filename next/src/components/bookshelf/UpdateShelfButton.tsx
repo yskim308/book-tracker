@@ -51,10 +51,9 @@ export default function UpdateShelfButton({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild className="mr-1">
         <Button variant="outline" size="sm">
-          <Edit className="h-4 w-4 mr-2" />
-          Edit Shelf
+          <Edit className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

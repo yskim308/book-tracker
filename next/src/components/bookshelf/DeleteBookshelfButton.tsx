@@ -39,8 +39,7 @@ export function DeleteBookshelfButton({
           size="sm"
           className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
         >
-          <Trash2 className="h-4 w-4 mr-2" />
-          Delete Bookshelf
+          <Trash2 className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-white">

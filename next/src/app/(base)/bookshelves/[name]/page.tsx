@@ -263,26 +263,28 @@ export default function Page() {
       ) : (
         <>
           <div className="mb-8">
-            <div className="flex items-start justify-between mb-4">
+            <div className="flex items-start mb-4">
               <div className="flex-1">
-                <h1 className="text-3xl font-bold mb-2">{bookshelf?.name}</h1>
+                <h1 className="text-3xl font-bold mb-2 flex items-center">
+                  {bookshelf?.name}
+                  <div className="ml-4">
+                    <UpdateShelfButton
+                      oldName={bookshelf?.name || ""}
+                      bookshelfName={bookshelf?.name || ""}
+                      description={bookshelf?.description || ""}
+                      onUpdate={handleUpdateShelf}
+                    />
+                    <DeleteBookshelfButton
+                      bookshelfName={bookshelf?.name || ""}
+                      onDelete={handleDeleteShelf}
+                    />
+                  </div>
+                </h1>
                 {bookshelf?.description && (
                   <p className="text-muted-foreground">
                     {bookshelf.description}
                   </p>
                 )}
-              </div>
-              <div className="ml-4">
-                <UpdateShelfButton
-                  oldName={bookshelf?.name || ""}
-                  bookshelfName={bookshelf?.name || ""}
-                  description={bookshelf?.description || ""}
-                  onUpdate={handleUpdateShelf}
-                />
-                <DeleteBookshelfButton
-                  bookshelfName={bookshelf?.name || ""}
-                  onDelete={handleDeleteShelf}
-                />
               </div>
             </div>
           </div>
