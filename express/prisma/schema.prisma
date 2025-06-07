@@ -52,6 +52,7 @@ model Bookshelf {
     // Many-to-many relationship with books
     books BookshelfBook[]
 
+    @@unique([name, userId])
     @@index([userId])
 }
 
