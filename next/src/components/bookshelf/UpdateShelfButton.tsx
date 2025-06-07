@@ -74,6 +74,7 @@ export default function UpdateShelfButton({
                 onChange={(e) => setUpdatedName(e.target.value)}
                 placeholder="Enter bookshelf name"
                 required
+                autoComplete="off"
               />
             </div>
             <div className="grid gap-2">
@@ -84,6 +85,7 @@ export default function UpdateShelfButton({
                 onChange={(e) => setUpdatedDescription(e.target.value)}
                 placeholder="Enter bookshelf description"
                 className="min-h-[100px]"
+                autoComplete="off"
               />
             </div>
           </div>
