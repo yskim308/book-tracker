@@ -45,36 +45,37 @@ export default function Page() {
   const { refetchBookshelves } = useUserState();
 
   const router = useRouter();
-  useEffect(() => {
-    const getBooks = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `${backendBase}/bookshelves/${bookshelfName}`,
-          {
-            credentials: "include",
-          },
-        );
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to fetch bookshelf data");
-        }
+  const getBooks = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${backendBase}/bookshelves/${bookshelfName}`,
+        {
+          credentials: "include",
+        },
+      );
 
-        const data: GetBooksRes = await response.json();
-        setBookshelf(data.bookshelf);
-        setBooks(data.books);
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching bookshelf:", err);
-        setError(
-          err instanceof Error ? err.message : "An unknown error occurred",
-        );
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to fetch bookshelf data");
       }
-    };
 
+      const data: GetBooksRes = await response.json();
+      setBookshelf(data.bookshelf);
+      setBooks(data.books);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching bookshelf:", err);
+      setError(
+        err instanceof Error ? err.message : "An unknown error occurred",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (bookshelfName) {
       getBooks();
     }
@@ -210,7 +211,11 @@ export default function Page() {
       toast.error("error in updating bookshelf");
       throw new Error("error: " + e);
     } finally {
-      router.push(`/bookshelves/${name}`);
+      if (oldName === name) {
+        getBooks();
+      } else {
+        router.push(`/bookshelves/${name}`);
+      }
       refetchBookshelves();
     }
   };
