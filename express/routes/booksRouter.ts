@@ -132,3 +132,68 @@ router.patch(
     }
   },
 );
+
+// update the completion date of a book
+interface UpdateDateBody {
+  newDate: Date;
+}
+
+router.put(
+  "/books/update/:externalId",
+  verifyJwt,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = res.locals.userId;
+      const externalId = req.params.externalId;
+      const { newDate }: UpdateDateBody = req.body;
+
+      if (!externalId) {
+        res.status(400).json({ error: "external id is required" });
+        return;
+      }
+
+      if (!newDate) {
+        res.status(400).json({ error: "newDate is required" });
+        return;
+      }
+
+      // Validate that newDate is a valid date
+      const parsedDate = new Date(newDate);
+      if (isNaN(parsedDate.getTime())) {
+        res.status(400).json({ error: "Invalid date format" });
+        return;
+      }
+
+      // Find the book belonging to the user with the given externalId
+      const existingBook = await prisma.book.findFirst({
+        where: {
+          externalId: externalId,
+          userId: userId,
+        },
+      });
+
+      if (!existingBook) {
+        res.status(404).json({ error: "Book not found" });
+        return;
+      }
+
+      // Update the book's completion date
+      const updatedBook = await prisma.book.update({
+        where: {
+          id: existingBook.id,
+        },
+        data: {
+          completionDate: parsedDate,
+        },
+      });
+
+      res.status(200).json({
+        message: "Book completion date updated successfully",
+        book: updatedBook,
+      });
+    } catch (error) {
+      console.error("Error updating book completion date:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+);
