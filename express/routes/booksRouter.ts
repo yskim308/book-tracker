@@ -135,7 +135,7 @@ router.patch(
 
 // update the completion date of a book
 interface UpdateDateBody {
-  newDate: Date;
+  newDate: string;
 }
 
 router.put(

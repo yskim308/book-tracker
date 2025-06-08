@@ -29,9 +29,10 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Trash2 } from "lucide-react";
+import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import { useState, useCallback } from "react";
 import AddToShelf from "./AddToShelf";
+import EditDateButton from "./EditDateButton";
 
 interface BookshelfBookRowProps {
   book: UserBook;
@@ -110,7 +111,7 @@ export function BookshelfBookRow({
           onClick={expandedTitle ? handleTitleClick : navigateToBook}
         >
           <div
-            className={`font-medium cursor-pointer ${expandedTitle ? "whitespace-normal break-words" : "truncate"}`}
+            className={`font-medium cursor-pointer ${expandedTitle ? "whitespace-normal break-words" : "truncate"} hover:underline`}
             onClick={handleTitleClick}
             title={book.title}
           >
@@ -144,10 +145,11 @@ export function BookshelfBookRow({
           </Select>
         </TableCell>
 
-        <TableCell className="w-1/4" onClick={navigateToBook}>
+        <TableCell className="w-1/4 flex items-center">
           {book.completionDate
             ? format(new Date(book.completionDate), "MMM d, yyyy")
             : "-"}
+          <EditDateButton book={book} />
         </TableCell>
 
         <TableCell className="w-16" onClick={(e) => e.stopPropagation()}>
