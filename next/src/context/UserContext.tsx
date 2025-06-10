@@ -18,7 +18,7 @@ interface UserContextType {
   shelfLoading: boolean;
   bookshelves: Bookshelf[];
   refetchBookshelves: () => Promise<void>;
-  authFetch: (url: string, options: RequestInit) => Promise<Response | void>;
+  authFetch: (url: string, options: RequestInit) => Promise<Response>;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
