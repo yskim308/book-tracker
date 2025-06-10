@@ -42,14 +42,14 @@ export default function Page() {
   const [error, setError] = useState<string | null>(null);
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
 
-  const { refetchBookshelves } = useUserState();
+  const { refetchBookshelves, authFetch } = useUserState();
 
   const router = useRouter();
 
   const getBooks = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
+      const response = await authFetch(
         `${backendBase}/bookshelves/${bookshelfName}`,
         {
           credentials: "include",
@@ -86,7 +86,7 @@ export default function Page() {
     newStatus: "READ" | "TO_READ" | "READING",
   ) => {
     try {
-      const response = await fetch(`${backendBase}/books/status`, {
+      const response = await authFetch(`${backendBase}/books/status`, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -128,7 +128,7 @@ export default function Page() {
 
   const handleDeleteBook = async (externalId: string) => {
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `${backendBase}/bookshelves/${bookshelfName}`,
         {
           method: "DELETE",
@@ -164,7 +164,7 @@ export default function Page() {
 
   const handleDeleteShelf = async (bookshelfName: string) => {
     try {
-      await fetch(`${backendBase}/bookshelves/delete`, {
+      await authFetch(`${backendBase}/bookshelves/delete`, {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -190,7 +190,7 @@ export default function Page() {
     description: string,
   ) => {
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `${backendBase}/bookshelves/update/${oldName}`,
         {
           credentials: "include",
