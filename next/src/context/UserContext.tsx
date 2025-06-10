@@ -18,6 +18,7 @@ interface UserContextType {
   shelfLoading: boolean;
   bookshelves: Bookshelf[];
   refetchBookshelves: () => Promise<void>;
+  authFetch: (url: string, options: RequestInit) => Promise<Response | void>;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -50,7 +51,7 @@ export function UserProvider({ children }: UserProviderProps) {
       }
       return response;
     },
-    [],
+    [router],
   );
 
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
