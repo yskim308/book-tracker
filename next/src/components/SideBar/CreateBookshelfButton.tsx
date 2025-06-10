@@ -20,36 +20,36 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useUserState } from "@/context/UserContext";
 
-const handleCreateBookshelf = async (
-  bookshelfName: string,
-  description: string,
-) => {
-  const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
-
-  const response = await fetch(`${backendBase}/bookshelves/create`, {
-    method: "POST", // Changed to POST since you're creating data
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      bookshelfName,
-      description,
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to create bookshelf");
-  }
-
-  return response.json();
-};
-
 export default function CreateBookshelfButton() {
   const [open, setOpen] = useState(false);
   const [bookshelfName, setBookshelfName] = useState("");
   const [description, setDescription] = useState("");
-  const { refetchBookshelves } = useUserState();
+  const { refetchBookshelves, authFetch } = useUserState();
+
+  const handleCreateBookshelf = async (
+    bookshelfName: string,
+    description: string,
+  ) => {
+    const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
+
+    const response = await authFetch(`${backendBase}/bookshelves/create`, {
+      method: "POST", // Changed to POST since you're creating data
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        bookshelfName,
+        description,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create bookshelf");
+    }
+
+    return response.json();
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
