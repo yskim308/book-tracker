@@ -28,7 +28,7 @@ export default function Layout({
 
           {/* Main content */}
           <div className="px-4">{children}</div>
-          <Toaster position="top-center" richColors />
+          <Toaster position="bottom-right" richColors />
         </main>
       </SidebarProvider>
     </UserProvider>
