@@ -58,9 +58,11 @@ export default function WorkDetail({ work }: WorkDetailProps) {
         <ScrollArea className="h-[300px] md:h-[500px] mt-5">
           <div className="flex flex-col space-y-3 px-4">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl flex">
                 {work.title}
-                {bookData && <AddBookButton bookData={bookData} />}
+                <div className="flex items-center mx-2">
+                  {bookData && <AddBookButton bookData={bookData} />}
+                </div>
               </h1>
               <div className="mt-1">
                 <h2 className="text-lg font-medium text-slate-700">Authors</h2>
