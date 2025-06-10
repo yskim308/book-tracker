@@ -5,9 +5,11 @@ import {
   useEffect,
   useContext,
   useCallback,
+  useMemo,
 } from "react";
 import type { ReactNode } from "react";
 import { User } from "@/types";
+import { useRouter } from "next/navigation";
 import type { Bookshelf } from "@/types";
 
 interface UserContextType {
@@ -39,6 +41,18 @@ export function UserProvider({ children }: UserProviderProps) {
   const [shelfLoading, setShelfLoading] = useState<boolean>(true);
   const [bookshelves, setBookshelves] = useState<Bookshelf[]>([]);
 
+  const router = useRouter();
+  const authFetch = useCallback(
+    async (url: string, options: RequestInit): Promise<Response> => {
+      const response = await fetch(url, options);
+      if (response.status === 403 || response.status == 401) {
+        router.push("/signIn");
+      }
+      return response;
+    },
+    [],
+  );
+
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
   if (!backendBase) {
     throw new Error("bakcend env varialbe not found");
@@ -48,14 +62,10 @@ export function UserProvider({ children }: UserProviderProps) {
     const fetchId = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${backendBase}/getUser`, {
+        const response = await authFetch(`${backendBase}/getUser`, {
           method: "GET",
           credentials: "include",
         });
-        if (!response.ok) {
-          window.location.href = "/signIn";
-        }
-
         const user: User = await response.json();
         setUser(user);
       } catch (e) {
@@ -64,7 +74,6 @@ export function UserProvider({ children }: UserProviderProps) {
         setLoading(false);
       }
     };
-
     fetchId();
   }, []);
 
@@ -85,7 +94,7 @@ export function UserProvider({ children }: UserProviderProps) {
 
     try {
       setShelfLoading(true);
-      const response = await fetch(`${backendBase}/bookshelves`, {
+      const response = await authFetch(`${backendBase}/bookshelves`, {
         credentials: "include",
       });
       console.log("fetching bookshelves");
@@ -110,13 +119,17 @@ export function UserProvider({ children }: UserProviderProps) {
     fetchBookshelves();
   }, [user, loading]);
 
-  const value = {
-    user,
-    loading,
-    bookshelves,
-    shelfLoading,
-    refetchBookshelves: fetchBookshelves,
-  };
+  const value = useMemo(
+    () => ({
+      user,
+      loading,
+      bookshelves,
+      shelfLoading,
+      refetchBookshelves: fetchBookshelves,
+      authFetch,
+    }),
+    [user, loading, bookshelves, shelfLoading, fetchBookshelves],
+  ); // Dependencies for useMemo
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
