@@ -130,7 +130,7 @@ export function BookshelfBookRow({
       setRowBook({
         ...rowBook,
         status: "READ",
-        completionDate: format(new Date(rowBook.completionDate), "MMM d, yyyy"),
+        completionDate: format(new Date(date), "MMM d, yyyy"),
       });
     } catch (e) {
       toast.error("Error updating book status");
@@ -182,7 +182,7 @@ export function BookshelfBookRow({
         </TableCell>
 
         <TableCell className="w-1/4 flex items-center">
-          {book.completionDate
+          {rowBook.completionDate
             ? format(new Date(rowBook.completionDate), "MMM d, yyyy")
             : "-"}
           <EditDateButton book={rowBook} onSubmit={handleUpdateDate} />
