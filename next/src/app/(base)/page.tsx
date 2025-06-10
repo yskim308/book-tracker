@@ -1,24 +1,20 @@
 "use client";
 import { User } from "@/types";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useUserState } from "@/context/UserContext";
 
 export default function Home() {
-  const router = useRouter();
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const { authFetch } = useUserState();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${backendBase}`, {
+        const response = await authFetch(`${backendBase}`, {
           method: "GET",
           credentials: "include",
         });
-        if (!response.ok) {
-          router.push("/signIn");
-          return;
-        }
         const userData = await response.json();
         setUser(userData.data);
         setLoading(false);
