@@ -65,10 +65,18 @@ export function BookshelfBookRow({
       book.externalId,
       value as "READ" | "TO_READ" | "READING",
     );
-    setRowBook({
-      ...rowBook,
-      status: value as "READ" | "TO_READ" | "READING",
-    });
+    if (value != "READ") {
+      setRowBook({
+        ...rowBook,
+        status: value as "READ" | "TO_READ" | "READING",
+        completionDate: "",
+      });
+    } else {
+      setRowBook({
+        ...rowBook,
+        status: value as "READ" | "TO_READ" | "READING",
+      });
+    }
   };
 
   const handleDelete = useCallback(async () => {
