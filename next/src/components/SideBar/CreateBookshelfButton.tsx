@@ -49,7 +49,6 @@ export default function CreateBookshelfButton() {
   const [open, setOpen] = useState(false);
   const [bookshelfName, setBookshelfName] = useState("");
   const [description, setDescription] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const { refetchBookshelves } = useUserState();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,8 +58,6 @@ export default function CreateBookshelfButton() {
       toast.error("bookshelf name is required");
       return;
     }
-
-    setIsLoading(true);
 
     try {
       await handleCreateBookshelf(bookshelfName, description);
@@ -74,7 +71,6 @@ export default function CreateBookshelfButton() {
       refetchBookshelves();
     } catch (error) {
       toast.error("error in creating bookshelf");
-      setIsLoading(false);
     }
   };
 
@@ -100,7 +96,6 @@ export default function CreateBookshelfButton() {
                 value={bookshelfName}
                 onChange={(e) => setBookshelfName(e.target.value)}
                 placeholder="Enter bookshelf name"
-                disabled={isLoading}
                 required
                 autoComplete="off"
               />
@@ -112,7 +107,6 @@ export default function CreateBookshelfButton() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter bookshelf description (optional)"
-                disabled={isLoading}
                 className="min-h-[80px]"
               />
             </div>
@@ -122,16 +116,10 @@ export default function CreateBookshelfButton() {
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              disabled={isLoading}
             >
               Cancel
             </Button>
-            <Button
-              type="submit"
-              disabled={isLoading}
-              onClick={() => setOpen(false)}
-            >
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Button type="submit" onClick={() => setOpen(false)}>
               Create Bookshelf
             </Button>
           </DialogFooter>
