@@ -15,13 +15,13 @@ export default function Layout({
         <AppSidebar />
         <main className="flex-1">
           {/* Header with search and profile */}
-          <div className="flex justify-center relative my-5 px-4">
+          <div className="flex justify-between relative my-5 px-4">
             <SidebarTrigger
               className="absolute left-0 top-1/2 -translate-y-1/2"
               asChild
             />
             <BookSearchbar />
-            <div className="absolute right-0 mx-2 md:mx-5 flex justify-center">
+            <div className="flex justify-center">
               <Profile />
             </div>
           </div>
