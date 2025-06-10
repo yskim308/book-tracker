@@ -9,7 +9,7 @@ interface Bookshelf {
 }
 
 export default function useFetchBookshelves() {
-  const { user, loading } = useUserState();
+  const { user, loading, authFetch } = useUserState();
   const [bookshelves, setBookshelves] = useState<Bookshelf[] | null>([]);
   const [shelfLoading, setShelfLoading] = useState<boolean>(true);
 
@@ -24,7 +24,7 @@ export default function useFetchBookshelves() {
         return;
       }
       try {
-        const response = await fetch(`${backendBase}/bookshelves`, {
+        const response = await authFetch(`${backendBase}/bookshelves`, {
           credentials: "include",
         });
         console.log("fetching bookshelves");

@@ -35,7 +35,7 @@ interface AddBookButtonProps {
 }
 
 export default function AddBookButton({ bookData }: AddBookButtonProps) {
-  const { bookshelves, refetchBookshelves } = useUserState();
+  const { bookshelves, refetchBookshelves, authFetch } = useUserState();
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
 
   const [isLoading, setIsLoading] = useState(true);
@@ -57,7 +57,7 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
   const checkBookExists = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `${backendBase}/books/check/${bookData.externalId}`,
         {
           credentials: "include",
@@ -104,7 +104,7 @@ export default function AddBookButton({ bookData }: AddBookButtonProps) {
       console.log(requestBody);
       console.log(JSON.stringify(requestBody));
 
-      const response = await fetch(
+      const response = await authFetch(
         `${backendBase}/bookshelves/${selectedBookshelf}`,
         {
           method: "POST",

@@ -34,6 +34,7 @@ import { useState, useCallback } from "react";
 import AddToShelf from "./AddToShelf";
 import EditDateButton from "./EditDateButton";
 import { toast } from "sonner";
+import { useUserState } from "@/context/UserContext";
 
 interface BookshelfBookRowProps {
   book: UserBook;
@@ -55,6 +56,7 @@ export function BookshelfBookRow({
   const [expandedTitle, setExpandedTitle] = useState(false);
   const [expandedAuthor, setExpandedAuthor] = useState(false);
   const [rowBook, setRowBook] = useState<UserBook>(book);
+  const { authFetch } = useUserState();
 
   const navigateToBook = () => {
     router.push(`/works/${book.externalId}`);
@@ -122,7 +124,7 @@ export function BookshelfBookRow({
 
   const handleUpdateDate = async (book: UserBook, date: Date) => {
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `${backendBase}/books/update/${book.externalId}`,
         {
           credentials: "include",
