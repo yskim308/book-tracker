@@ -33,6 +33,7 @@ import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import { useState, useCallback } from "react";
 import AddToShelf from "./AddToShelf";
 import EditDateButton from "./EditDateButton";
+import { toast } from "sonner";
 
 interface BookshelfBookRowProps {
   book: UserBook;
@@ -53,6 +54,7 @@ export function BookshelfBookRow({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [expandedTitle, setExpandedTitle] = useState(false);
   const [expandedAuthor, setExpandedAuthor] = useState(false);
+  const [rowBook, setRowBook] = useState<UserBook>(book);
 
   const navigateToBook = () => {
     router.push(`/works/${book.externalId}`);
@@ -101,6 +103,40 @@ export function BookshelfBookRow({
     setExpandedAuthor(!expandedAuthor);
   };
 
+  const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE;
+  if (!backendBase) {
+    throw new Error("backend base not configured in env");
+  }
+
+  const handleUpdateDate = async (book: UserBook, date: Date) => {
+    try {
+      const response = await fetch(
+        `${backendBase}/books/update/${book.externalId}`,
+        {
+          credentials: "include",
+          body: JSON.stringify({
+            newDate: date,
+          }),
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to update book");
+      }
+      setRowBook({
+        ...rowBook,
+        status: "READ",
+        completionDate: format(new Date(rowBook.completionDate), "MMM d, yyyy"),
+      });
+    } catch (e) {
+      toast.error("Error updating book status");
+    }
+  };
+
   const authorText = book.author.join(", ");
 
   return (
@@ -133,7 +169,7 @@ export function BookshelfBookRow({
         </TableCell>
 
         <TableCell className="w-1/6" onClick={(e) => e.stopPropagation()}>
-          <Select value={book.status} onValueChange={handleStatusChange}>
+          <Select value={rowBook.status} onValueChange={handleStatusChange}>
             <SelectTrigger className="w-[130px]">
               <SelectValue />
             </SelectTrigger>
@@ -147,9 +183,9 @@ export function BookshelfBookRow({
 
         <TableCell className="w-1/4 flex items-center">
           {book.completionDate
-            ? format(new Date(book.completionDate), "MMM d, yyyy")
+            ? format(new Date(rowBook.completionDate), "MMM d, yyyy")
             : "-"}
-          <EditDateButton book={book} />
+          <EditDateButton book={rowBook} onSubmit={handleUpdateDate} />
         </TableCell>
 
         <TableCell className="w-16" onClick={(e) => e.stopPropagation()}>
