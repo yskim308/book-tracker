@@ -184,6 +184,7 @@ router.put(
         },
         data: {
           completionDate: parsedDate,
+          status: "READ",
         },
       });
 
