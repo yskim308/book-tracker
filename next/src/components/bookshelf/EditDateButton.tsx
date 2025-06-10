@@ -1,9 +1,7 @@
 import type { UserBook } from "@/types";
 import { useState } from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, CalendarCheck } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -14,12 +12,21 @@ import {
 
 interface EditDateButton {
   book: UserBook;
+  onSubmit: (book: UserBook, date: Date) => void;
 }
-export default function EditDateButton({ book }: EditDateButton) {
+export default function EditDateButton({ book, onSubmit }: EditDateButton) {
   const [date, setDate] = useState<Date | undefined>(
     new Date(book.completionDate),
   );
   const [open, setOpen] = useState<boolean>(false);
+
+  const handleSubmit = () => {
+    if (!date) {
+      return;
+    }
+    onSubmit(book, date);
+    setOpen(false);
+  };
 
   return (
     <>
@@ -43,6 +50,12 @@ export default function EditDateButton({ book }: EditDateButton) {
                 setDate(date);
               }}
             />
+            <div className="flex justify-center mb-2">
+              <Button variant="outline" onClick={() => handleSubmit()}>
+                <h1>Submit</h1>
+                <CalendarCheck />
+              </Button>
+            </div>
           </PopoverContent>
         </Popover>
       </div>
