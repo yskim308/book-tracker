@@ -1,8 +1,7 @@
 # Use an official Node.js runtime as the base image.
 # We choose a specific version (e.g., 20.x) and a slim variant for smaller image size.
 # node:20-slim is a good balance between size and functionality.
-FROM node:20-slim
-
+FROM oven/bun:latest
 # Set the working directory inside the container.
 # All subsequent commands will be executed in this directory.
 WORKDIR /usr/src/app
