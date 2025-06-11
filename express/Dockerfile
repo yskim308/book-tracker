@@ -17,7 +17,7 @@ COPY bun*.lockb ./
 # For local dev, npm install is fine, but npm ci is generally preferred for consistency.
 RUN bun install
 # make sure prisma client is generated :O
-RUN bunx prisma generate
+RUN bun run generate
 
 # Copy the rest of the application code to the working directory.
 # The .dockerignore file will prevent unnecessary files from being copied.
@@ -31,7 +31,7 @@ EXPOSE 4000
 # Define the command to run your application when the container starts.
 # CMD specifies the default command when running the container.
 # Use the exec form for better signal handling (e.g., graceful shutdown).
-CMD [ "bun", "index.js" ]
+CMD [ "bun", "run", "start" ]
 # OR if your main entry file is app.js, use:
 # CMD [ "node", "app.js" ]
 # OR if you use a start script in package.json (recommended for most Node.js apps):
