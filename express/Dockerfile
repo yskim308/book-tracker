@@ -16,6 +16,8 @@ COPY bun*.lockb ./
 # Use npm ci for clean installs in CI/CD and production environments.
 # For local dev, npm install is fine, but npm ci is generally preferred for consistency.
 RUN bun install
+# make sure prisma client is generated :O
+RUN bunx prisma generate
 
 # Copy the rest of the application code to the working directory.
 # The .dockerignore file will prevent unnecessary files from being copied.
