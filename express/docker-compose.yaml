@@ -1,6 +1,3 @@
-# docker-compose.yaml
-version: '3.8' # Specify the Compose file format version
-
 services:
   # Define your Node.js application service
   app:
@@ -8,7 +5,7 @@ services:
       context: .       # Look for the Dockerfile in the current directory
       dockerfile: Dockerfile # Specify the Dockerfile to use (optional if named 'Dockerfile')
     ports:
-      - "3000:3000"    # Map host port 3000 to container port 3000
+      - "4000:4000"    # Map host port 3000 to container port 3000
                        # Your bun app should be configured to listen on 3000
 
     # Load environment variables from .env files
