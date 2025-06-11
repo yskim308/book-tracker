@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "bun run index.js",
-    "generate": "bunx prisma generate"
+    "generate": "bunx prisma generate --schema=./prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
