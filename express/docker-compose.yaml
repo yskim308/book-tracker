@@ -1,0 +1,36 @@
+# docker-compose.yaml
+version: '3.8' # Specify the Compose file format version
+
+services:
+  # Define your Node.js application service
+  app:
+    build:
+      context: .       # Look for the Dockerfile in the current directory
+      dockerfile: Dockerfile # Specify the Dockerfile to use (optional if named 'Dockerfile')
+    ports:
+      - "3000:3000"    # Map host port 3000 to container port 3000
+                       # Your bun app should be configured to listen on 3000
+
+    # Load environment variables from .env files
+    # Compose loads env_file in the order specified.
+    # Variables in later files will override variables in earlier files if names conflict.
+    env_file:
+      - ./.env         # Load common dev variables
+      - ./.env.local   # Load local overrides (and potentially sensitive ones)
+
+    volumes:
+      # Mount the current host directory into the container's /app directory.
+      # This allows for live code changes during development without rebuilding the image.
+      - .:/app
+      # Create an anonymous volume for node_modules inside the container.
+      # This prevents the host's node_modules (which might be incompatible) from overriding
+      # the container's node_modules (which were installed by bun install inside the container).
+      # This is CRUCIAL for Node.js/bun dev experience with volumes.
+      - /app/node_modules
+
+    # Ensure the container automatically restarts unless explicitly stopped
+    restart: unless-stopped
+
+    # If you had a database, you would add a depends_on here:
+    # depends_on:
+    #   - db # if you add a 'db' service later
