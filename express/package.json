@@ -13,7 +13,6 @@
     "start": "bun index.js"
   },
   "dependencies": {
-    "@prisma/client": "^5.15.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
@@ -28,6 +27,6 @@
     "jsonwebtoken": "^9.0.2",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "prisma": "^5.15.0"
+    "prisma": "^6.9.0"
   }
 }

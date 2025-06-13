@@ -22,9 +22,9 @@ app.use(passport.initialize());
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/auth/google", GoogleAuthRouter);
 app.use("/", HomeRouter);
 app.use("/", BookRouter);
+app.use("/auth/google", GoogleAuthRouter);
 app.use("/", ShelfRouter);
 app.use("/", ShelfBookRouter);
 

@@ -18,12 +18,12 @@ services:
     volumes:
       # Mount the current host directory into the container's /app directory.
       # This allows for live code changes during development without rebuilding the image.
-      - .:/app
+      - .:/usr/src/app
       # Create an anonymous volume for node_modules inside the container.
       # This prevents the host's node_modules (which might be incompatible) from overriding
       # the container's node_modules (which were installed by bun install inside the container).
       # This is CRUCIAL for Node.js/bun dev experience with volumes.
-      - /app/node_modules
+      - /usr/src/app/node_modules
 
 
     # If you had a database, you would add a depends_on here:
