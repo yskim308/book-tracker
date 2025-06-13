@@ -1,7 +1,7 @@
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import passport from "passport";
 import type { Profile } from "passport-google-oauth20";
-import { PrismaClient } from "../generated/prisma";
+import PrismaClient from "@prisma/client";
 import type { User } from "../generated/prisma";
 
 const clientID = process.env.GOOGLE_CLIENT_ID;
