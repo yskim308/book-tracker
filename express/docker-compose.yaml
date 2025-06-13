@@ -24,6 +24,7 @@ services:
       # the container's node_modules (which were installed by bun install inside the container).
       # This is CRUCIAL for Node.js/bun dev experience with volumes.
       - /usr/src/app/node_modules
+      - /usr/src/app/generated
 
 
     # If you had a database, you would add a depends_on here:

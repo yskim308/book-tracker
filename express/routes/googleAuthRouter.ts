@@ -2,7 +2,7 @@ import express from "express";
 import passport, { session } from "passport";
 import "../auth/googleStrategy.ts";
 import type { User } from "../generated/prisma/index";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../generated/prisma";
 import jwt from "jsonwebtoken";
 export { router };
 
