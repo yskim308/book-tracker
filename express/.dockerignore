@@ -39,3 +39,6 @@ generated/prisma
 
 Dockerfile
 docker-compose.yml
+
+#python script
+createSecrets.py
