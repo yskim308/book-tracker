@@ -8,7 +8,7 @@ import { router as BookRouter } from "./routes/booksRouter";
 import { router as ShelfRouter } from "./routes/shelfRouter";
 import { router as ShelfBookRouter } from "./routes/shelfBookRouter";
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 const frontendBase = process.env.FRONTEND_BASE;
 const app = express();
